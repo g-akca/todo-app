@@ -9,7 +9,7 @@ function TodoItem({ id, isCompleted, task }) {
           className={`
             w-5 aspect-square rounded-full
             ${isCompleted ? 
-              "flex justify-center items-center bg-linear-135 from-[#55DDFF] to-[#C058F3] to-90%" 
+              "flex justify-center items-center bg-linear-135 from-[#55DDFF] to-[#C058F3]" 
               : "border border-purple-800"
             }`
           }
