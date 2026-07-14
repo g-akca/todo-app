@@ -34,6 +34,8 @@ const todoItems = [
 ];
 
 function TodoList() {
+  const itemsLeft = todoItems.filter(item => !item.completed).length;
+
   return (
     <div className="bg-navy-900 rounded-[5px] shadow-[0_35px_50px_rgba(0,0,0,0.5)] flex flex-col">
       {todoItems.map(item => (
@@ -44,7 +46,7 @@ function TodoList() {
       ))}
 
       <div className="py-4 px-5 flex justify-between items-center">
-        <p>5 items left</p>
+        <p>{itemsLeft} items left</p>
 
         <p>Clear Completed</p>
       </div>
