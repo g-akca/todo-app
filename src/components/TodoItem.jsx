@@ -1,5 +1,5 @@
 import crossIcon from "/images/icon-cross.svg";
-import checkIcon from "/images/icon-check.svg";
+import CheckIcon from "./icons/CheckIcon";
 
 function TodoItem({ id, isCompleted, task }) {
   return (
@@ -15,7 +15,7 @@ function TodoItem({ id, isCompleted, task }) {
           }
         >
           {isCompleted && (
-            <img src={checkIcon} alt="" />
+            <CheckIcon />
           )}
         </div>
 
