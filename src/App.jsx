@@ -1,5 +1,6 @@
 import Header from "./components/Header";
 import MainSection from "./components/MainSection";
+import { Routes, Route } from "react-router";
 
 function App() {
   return (
@@ -10,8 +11,10 @@ function App() {
       "
     >
       <Header />
-
-      <MainSection />
+      
+      <Routes>
+        <Route path="/" element={<MainSection />} />
+      </Routes>
     </div>
   )
 }
