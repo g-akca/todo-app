@@ -1,11 +1,12 @@
 import LoginSection from "./LoginSection";
+import { Link } from "react-router";
 
 function LoginWrapper() {
   return (
     <div className="flex flex-col gap-10">
       <LoginSection />
       
-      <p className="text-center text-[14px] leading-base">First time here? <a>Sign Up</a></p>
+      <p className="text-center text-[14px] leading-base">First time here? <Link to="/signup" className="text-blue-500 font-semibold">Sign Up</Link></p>
     </div>
   )
 }
