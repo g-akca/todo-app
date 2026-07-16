@@ -1,5 +1,6 @@
 import Header from "./components/Header";
 import LoginWrapper from "./components/LoginWrapper";
+import SignupWrapper from "./components/SignupWrapper";
 import MainSection from "./components/MainSection";
 import { Routes, Route } from "react-router";
 
@@ -17,6 +18,8 @@ function App() {
         <Route path="/" element={<MainSection />} />
 
         <Route path="/login" element={<LoginWrapper />} />
+
+        <Route path="/signup" element={<SignupWrapper />} />
       </Routes>
     </div>
   )
