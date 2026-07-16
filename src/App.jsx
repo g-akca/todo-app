@@ -1,4 +1,5 @@
 import Header from "./components/Header";
+import LoginSection from "./components/LoginSection";
 import MainSection from "./components/MainSection";
 import { Routes, Route } from "react-router";
 
@@ -14,6 +15,8 @@ function App() {
       
       <Routes>
         <Route path="/" element={<MainSection />} />
+
+        <Route path="/login" element={<LoginSection />} />
       </Routes>
     </div>
   )
