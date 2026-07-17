@@ -29,7 +29,7 @@ function TodoItem({ id, isCompleted, task }) {
         </p>
       </div>
 
-      <button type="button" className="shrink-0">
+      <button type="button" className="shrink-0 desktop:hidden">
         <img src={crossIcon} alt="Remove icon" className="w-3 aspect-square tablet:w-4.25" />
       </button>
     </div>
