@@ -1,6 +1,6 @@
 import TodoList from "./TodoList";
 import NewTodo from "./NewTodo";
-import TabSection from "./TabSection";
+import TabList from "./TabList";
 
 function TodoSection() {
   return (
@@ -16,7 +16,7 @@ function TodoSection() {
             flex items-center justify-center tablet:hidden
           "
         >
-          <TabSection />
+          <TabList />
         </div>
       </div>
     </div>

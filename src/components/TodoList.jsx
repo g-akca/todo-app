@@ -1,3 +1,4 @@
+import TabList from "./TabList";
 import TodoItem from "./TodoItem";
 
 const todoItems = [
@@ -37,7 +38,7 @@ function TodoList() {
   const itemsLeft = todoItems.filter(item => !item.isCompleted).length;
 
   return (
-    <div className="bg-navy-900 rounded-[5px] shadow-[0_35px_50px_rgba(0,0,0,0.5)] flex flex-col">
+    <div className="bg-navy-900 rounded-[5px] shadow-[0_35px_50px_rgba(0,0,0,0.5)]">
       {todoItems.map(item => (
         <TodoItem
           key={item.id}
@@ -45,10 +46,19 @@ function TodoList() {
         />
       ))}
 
-      <div className="py-4 px-5 flex justify-between items-center">
+      <div 
+        className="
+          py-4 px-5 flex justify-between items-center tablet:p-6 
+          tablet:text-[14px] tablet:leading-base tablet:grid tablet:grid-cols-3
+        "
+      >
         <p>{itemsLeft} items left</p>
 
-        <p>Clear Completed</p>
+        <div className="hidden tablet:block">
+          <TabList />
+        </div>
+
+        <p className="text-end">Clear Completed</p>
       </div>
     </div>
   )
