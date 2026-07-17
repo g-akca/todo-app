@@ -53,7 +53,12 @@ function TodoList() {
           <TabList />
         </div>
 
-        <p className="text-end">Clear Completed</p>
+        <button 
+          type="button" 
+          className="cursor-pointer transition-all tablet:justify-self-end hover:text-purple-300"
+        >
+          Clear Completed
+        </button>
       </div>
     </div>
   )
