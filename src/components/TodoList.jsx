@@ -46,12 +46,7 @@ function TodoList() {
         />
       ))}
 
-      <div 
-        className="
-          py-4 px-5 flex justify-between items-center tablet:p-6 
-          tablet:text-[14px] tablet:leading-base tablet:grid tablet:grid-cols-3
-        "
-      >
+      <div className="py-4 px-5 flex justify-between items-center tablet:p-6 tablet:grid tablet:grid-cols-3">
         <p>{itemsLeft} items left</p>
 
         <div className="hidden tablet:block">

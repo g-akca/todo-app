@@ -8,8 +8,8 @@ function App() {
   return (
     <div 
       className="
-        relative text-base leading-base tracking-base text-purple-600
-        bg-navy-950 min-h-screen px-6 py-12 flex justify-center
+        relative text-base leading-base tracking-base text-purple-600 bg-navy-950 
+        min-h-screen px-6 py-12 flex justify-center tablet:text-[14px]
       "
     >
       <div 
