@@ -1,6 +1,7 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { getUserByEmail, getUserById } from "../db/queries.js";
+import { comparePassword } from "../utils/passwords.js";
 
 passport.use(new LocalStrategy(
   {
@@ -15,8 +16,7 @@ passport.use(new LocalStrategy(
         return done(null, false, { message: "Invalid email." });
       }
 
-      // Compare passwords later
-      const isValidPassword;
+      const isValidPassword = await comparePassword(password, user.password);
 
       if (!isValidPassword) {
         return done(null, false, { message: "Invalid password." });
