@@ -12,7 +12,10 @@ function NewTodo() {
         type="text"
         id="todo"
         placeholder="Create a new todo…"
-        className="w-full py-1 text-gray-600 mt-px placeholder:text-gray-600 tablet:text-[18px] tablet:leading-base tablet:mt-0.5"
+        className="
+          w-full py-1 text-gray-600 mt-px caret-blue-500 placeholder:text-gray-600 
+          tablet:text-[18px] tablet:leading-base tablet:mt-0.5 focus:outline-none
+        "
       />
     </form>
   )
