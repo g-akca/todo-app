@@ -2,7 +2,7 @@ import pool from "./pool.js";
 
 async function getUserByEmail(email) {
   try {
-    return await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+    return await pool.query("SELECT * FROM users WHERE email = $1", [email]).rows[0];
   } catch (error) {
     console.error("Error finding user by email:", error);
     throw(error);
@@ -11,7 +11,7 @@ async function getUserByEmail(email) {
 
 async function getUserById(id) {
   try {
-    return await pool.query("SELECT * FROM users WHERE id = $1", [id]);
+    return await pool.query("SELECT * FROM users WHERE id = $1", [id]).rows[0];
   } catch (error) {
     console.error("Error finding user by id:", error);
     throw(error);
