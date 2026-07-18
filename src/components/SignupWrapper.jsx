@@ -7,7 +7,7 @@ function SignupWrapper() {
       <SignupSection />
       
       <p className="text-center text-[14px] leading-base tablet:text-[16px]">
-        Got an account? <Link to="/login" className="text-blue-500 font-semibold transition-all hover:text-purple-300">Log In</Link>
+        Got an account? <Link to="/login" className="text-blue-500 font-semibold transition-all duration-300 hover:text-purple-300 light:hover:text-navy-850">Log In</Link>
       </p>
     </div>
   )
