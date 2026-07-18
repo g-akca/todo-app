@@ -8,14 +8,15 @@ function App() {
   return (
     <div 
       className="
-        relative text-base leading-base tracking-base text-purple-600 bg-navy-950 
-        min-h-screen px-6 py-12 flex justify-center tablet:text-[14px]
+        relative text-base leading-base tracking-base text-purple-600 bg-navy-950 px-6 py-12
+        min-h-screen flex justify-center tablet:text-[14px] light:text-gray-600 light:bg-gray-50
       "
     >
       <div 
         className="
           absolute inset-x-0 top-0 h-50 bg-[url('/images/bg-mobile-dark.jpg')] bg-cover
           bg-top-left bg-no-repeat tablet:h-75 tablet:bg-[url('/images/bg-desktop-dark.jpg')]
+          light:bg-[url('/images/bg-mobile-light.jpg')] light:tablet:bg-[url('/images/bg-desktop-light.jpg')]
         "
       />
       
