@@ -12,8 +12,8 @@ function TodoSection() {
 
         <div 
           className="
-            bg-navy-900 h-12 px-6 rounded-[5px] shadow-[0_35px_50px_rgba(0,0,0,0.5)] 
-            flex items-center justify-center tablet:hidden
+            bg-navy-900 h-12 px-6 rounded-[5px] shadow-[0_35px_50px_rgba(0,0,0,0.5)] flex items-center 
+            justify-center tablet:hidden light:bg-white light:shadow-[0_35px_50px_rgba(194,195,214,0.5)] 
           "
         >
           <TabList />

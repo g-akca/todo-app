@@ -2,11 +2,11 @@ function NewTodo() {
   return (
     <form 
       className="
-        bg-navy-900 h-12 px-6 rounded-[5px] shadow-[0_35px_50px_rgba(0,0,0,0.5)] 
-        flex items-center gap-4 tablet:h-16 tablet:gap-6
+        bg-navy-900 h-12 px-6 rounded-[5px] shadow-[0_35px_50px_rgba(0,0,0,0.5)] flex items-center 
+        gap-4 tablet:h-16 tablet:gap-6 light:bg-white light:shadow-[0_35px_50px_rgba(194,195,214,0.5)]
       "
     >
-      <div className="w-5 aspect-square rounded-full border border-purple-800 tablet:w-6" />
+      <div className="w-5 aspect-square rounded-full border border-purple-800 tablet:w-6 light:border-purple-300" />
 
       <input 
         type="text"
