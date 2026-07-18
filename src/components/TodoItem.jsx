@@ -3,14 +3,16 @@ import Checkbox from "./Checkbox";
 
 function TodoItem({ id, isCompleted, task }) {
   return (
-    <button className="group w-full py-4 px-5 border-b border-purple-800 flex justify-between items-center gap-4 cursor-pointer tablet:p-6">
+    <button 
+      className="group w-full py-4 px-5 border-b border-purple-800 flex justify-between items-center gap-4 cursor-pointer tablet:p-6 light:border-purple-300"
+    >
       <div className="flex items-center gap-4 tablet:gap-6">
         <Checkbox isCompleted={isCompleted} />
 
         <p 
           className={`
             mt-px tablet:text-[18px] tablet:leading-base tablet:mt-1 
-            ${isCompleted ? "text-purple-700 line-through" : "text-purple-100"}
+            ${isCompleted ? "text-purple-700 line-through light:text-gray-300" : "text-purple-100 light:text-navy-850"}
           `}
         >
           {task}

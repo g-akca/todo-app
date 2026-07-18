@@ -8,14 +8,14 @@ function Checkbox({ isCompleted }) {
         ${
           isCompleted
             ? "flex justify-center items-center from-[#55DDFF] to-[#C058F3]"
-            : "bg-purple-800 p-px group-hover:border-none group-hover:from-[#55DDFF] group-hover:to-[#C058F3]"
+            : "bg-purple-800 p-px group-hover:border-none group-hover:from-[#55DDFF] group-hover:to-[#C058F3] light:bg-purple-300"
         }
       `}
     >
       {isCompleted ? (
         <CheckIcon />
       ) : (
-        <div className="w-full h-full rounded-full bg-navy-900" />
+        <div className="w-full h-full rounded-full bg-navy-900 light:bg-white" />
       )}
     </div>
   )

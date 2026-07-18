@@ -38,7 +38,7 @@ function TodoList() {
   const itemsLeft = todoItems.filter(item => !item.isCompleted).length;
 
   return (
-    <div className="bg-navy-900 rounded-[5px] shadow-[0_35px_50px_rgba(0,0,0,0.5)]">
+    <div className="bg-navy-900 rounded-[5px] shadow-[0_35px_50px_rgba(0,0,0,0.5)] light:bg-white light:shadow-[0_35px_50px_rgba(194,195,214,0.5)]">
       {todoItems.map(item => (
         <TodoItem
           key={item.id}
