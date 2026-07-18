@@ -2,13 +2,13 @@ function LoginSection() {
   return (
     <form 
       className="
-        flex flex-col gap-5 rounded-[5px] bg-navy-900 px-5 py-6 
-        shadow-[0_35px_50px_rgba(0,0,0,0.5)] tablet:p-6 tablet:gap-6
+        flex flex-col gap-5 rounded-[5px] bg-navy-900 px-5 py-6 shadow-[0_35px_50px_rgba(0,0,0,0.5)] 
+        tablet:p-6 tablet:gap-6 light:bg-white light:shadow-[0_35px_50px_rgba(194,195,214,0.5)]
       "
     >
-      <h2 className="text-[24px] font-bold leading-base text-purple-100 tablet:text-[32px]">Log In</h2>
+      <h2 className="text-[24px] font-bold leading-base text-purple-100 tablet:text-[32px] light:text-navy-850">Log In</h2>
 
-      <div className="flex flex-col gap-4 text-[14px] leading-base text-purple-300 tablet:text-[18px] tablet:gap-5">
+      <div className="flex flex-col gap-4 text-[14px] leading-base text-purple-300 tablet:text-[18px] tablet:gap-5 light:text-navy-850">
         <div className="flex flex-col gap-2">
           <label htmlFor="email">Email</label>
 
@@ -19,6 +19,7 @@ function LoginSection() {
             className="
               rounded-[5px] border border-purple-700 bg-navy-950/80 px-4 py-3 transition-all text-purple-100 
               placeholder:text-purple-600 tablet:py-3.5 hover:border-blue-500 focus:outline-none focus:border-blue-500
+              light:border-purple-300 light:bg-white light:text-navy-850 light:placeholder:text-purple-300
             "
           />
         </div>
@@ -32,13 +33,17 @@ function LoginSection() {
             placeholder="Enter your password"
             className="
               rounded-[5px] border border-purple-700 bg-navy-950/80 px-4 py-3 transition-all text-purple-100 
-              placeholder:text-purple-600 tablet:py-3.5 hover:border-blue-500 focus:outline-none focus:outline-blue-500
+              placeholder:text-purple-600 tablet:py-3.5 hover:border-blue-500 focus:outline-none focus:border-blue-500
+              light:border-purple-300 light:bg-white light:text-navy-850 light:placeholder:text-purple-300
             "
           />
         </div>
 
-        <label className="flex items-center gap-2 text-base leading-base cursor-pointer tablet:text-[15px]">
-          <input type="checkbox" className="h-3.5 aspect-square rounded border-purple-600 accent-blue-500 cursor-pointer tablet:h-4" />
+        <label className="flex items-center gap-2 text-base leading-base cursor-pointer tablet:text-[15px] light:text-navy-850">
+          <input 
+            type="checkbox" 
+            className="h-3.5 aspect-square rounded border-purple-600 accent-blue-500 cursor-pointer tablet:h-4 light:border-purple-300" 
+          />
           <p className="mt-px tablet:mt-0.75">Remember me</p>
         </label>
       </div>
