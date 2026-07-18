@@ -1,6 +1,10 @@
+import { useState } from "react";
 import sunIcon from "/images/icon-sun.svg";
+import moonIcon from "/images/icon-moon.svg";
 
 function Header() {
+  const [darkMode, setDarkMode] = useState(true);
+
   return (
     <header className="flex justify-between items-center gap-4">
       <h1 
@@ -12,7 +16,13 @@ function Header() {
         Todo
       </h1>
 
-      <img src={sunIcon} alt="Sun icon" className="w-5 aspect-square tablet:w-6.5" />
+      <button type="button" onClick={() => setDarkMode(prev => !prev)}>
+        <img 
+          src={darkMode ? sunIcon : moonIcon} 
+          alt={darkMode ? "Sun icon" : "Moon icon"} 
+          className="w-5 aspect-square tablet:w-6.5" 
+        />
+      </button>
     </header>
   )
 }
