@@ -11,7 +11,7 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, (e) => {
   if (e) {
-    throw error;
+    throw e;
   }
 
   console.log(`Listening on port ${PORT}!`)
