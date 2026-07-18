@@ -1,9 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import sunIcon from "/images/icon-sun.svg";
 import moonIcon from "/images/icon-moon.svg";
 
 function Header() {
   const [darkMode, setDarkMode] = useState(true);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "light") {
+      setDarkMode(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const root = document.getElementById("root");
+
+    if (darkMode) {
+      root.classList.remove("light");
+      localStorage.setItem("theme", "dark");
+    }
+    else {
+      root.classList.add("light");
+      localStorage.setItem("theme", "light");
+    }
+  }, [darkMode]);
 
   return (
     <header className="flex justify-between items-center gap-4">
