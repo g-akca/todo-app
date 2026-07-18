@@ -37,7 +37,11 @@ function Header() {
         Todo
       </h1>
 
-      <button type="button" onClick={() => setDarkMode(prev => !prev)}>
+      <button 
+        type="button" 
+        onClick={() => setDarkMode(prev => !prev)} 
+        className="cursor-pointer transition-all duration-200 hover:scale-[1.15] active:scale-[1.03]"
+      >
         <img 
           src={darkMode ? sunIcon : moonIcon} 
           alt={darkMode ? "Sun icon" : "Moon icon"} 
