@@ -17,9 +17,9 @@ function TodoItem({ id, isCompleted, task }) {
         </p>
       </div>
 
-      <button type="button" className="shrink-0 cursor-pointer transition-all duration-200 desktop:opacity-0 group-hover:opacity-100">
+      <div className="shrink-0 cursor-pointer transition-all duration-200 desktop:opacity-0 group-hover:opacity-100" role="button">
         <img src={crossIcon} alt="Remove icon" className="w-3 aspect-square tablet:w-4.25" />
-      </button>
+      </div>
     </button>
   )
 }
