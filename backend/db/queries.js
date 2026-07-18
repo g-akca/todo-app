@@ -18,4 +18,16 @@ async function getUserById(id) {
   }
 }
 
-export { getUserByEmail, getUserById };
+async function createUser(email, password) {
+  try {
+    return await pool.query(
+      "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id, email",
+      [email, password]
+    );
+  } catch (error) {
+    console.error("Error creating user:", error);
+    throw(error);
+  }
+}
+
+export { getUserByEmail, getUserById, createUser };
