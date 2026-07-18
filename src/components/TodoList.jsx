@@ -55,7 +55,7 @@ function TodoList() {
 
         <button 
           type="button" 
-          className="cursor-pointer transition-all tablet:justify-self-end hover:text-purple-300"
+          className="cursor-pointer transition-all tablet:justify-self-end hover:text-purple-300 light:hover:text-navy-850"
         >
           Clear Completed
         </button>

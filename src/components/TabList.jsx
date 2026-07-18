@@ -25,7 +25,7 @@ function TabList() {
           key={tab.index}
           type="button"
           onClick={() => setSelectedIndex(tab.index)}
-          className={`cursor-pointer transition-all ${selectedIndex === tab.index ? "text-blue-500" : "hover:text-purple-300"}`}
+          className={`cursor-pointer transition-all ${selectedIndex === tab.index ? "text-blue-500" : "hover:text-purple-300 light:hover:text-navy-850"}`}
         >
           {tab.name}
         </button>
