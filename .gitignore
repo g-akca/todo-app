@@ -25,3 +25,7 @@ dist-ssr
 
 README-template.md
 style-guide.md
+
+# Environment variables
+.env
+.env.*
