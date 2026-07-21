@@ -1,7 +1,7 @@
 import { Navigate } from "react-router";
 import { useAuth } from "../context/AuthContext";
 
-export function ProtectedRoute({ children }) {
+export function ProtectedRoute({ allowedRole, children }) {
   const { user, loading } = useAuth();
 
   if (loading) {
@@ -11,8 +11,11 @@ export function ProtectedRoute({ children }) {
       </div>
     );
   }
-
-  if (!user) {
+  
+  if (allowedRole === "guest" && user) {
+    return <Navigate to="/" replace />;
+  }
+  else if (allowedRole === "authenticated" && !user) {
     return <Navigate to="/login" replace />;
   }
 

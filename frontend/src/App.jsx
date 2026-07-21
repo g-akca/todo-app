@@ -23,15 +23,29 @@ function App() {
           <Route 
             path="/" 
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRole="authenticated">
                 <MainSection />
               </ProtectedRoute>
             } 
           />
 
-          <Route path="/login" element={<LoginWrapper />} />
+          <Route 
+            path="/login" 
+            element={
+              <ProtectedRoute allowedRole="guest">
+                <LoginWrapper />
+              </ProtectedRoute>
+            } 
+          />
 
-          <Route path="/signup" element={<SignupWrapper />} />
+          <Route 
+            path="/signup" 
+            element={
+              <ProtectedRoute allowedRole="guest">
+                <SignupWrapper />
+              </ProtectedRoute>
+            } 
+          />
           
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
