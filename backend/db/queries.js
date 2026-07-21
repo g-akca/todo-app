@@ -33,4 +33,14 @@ async function createUser(email, password) {
   }
 }
 
-export { getUserByEmail, getUserById, createUser };
+async function getTasksByUserId(userId) {
+  try {
+    const result = await pool.query("SELECT * FROM tasks WHERE user_id = $1", [userId]);
+    return result.rows ?? null;
+  } catch (error) {
+    console.error("Error finding tasks by user id:", error);
+    throw(error);
+  }
+}
+
+export { getUserByEmail, getUserById, createUser, getTasksByUserId };
