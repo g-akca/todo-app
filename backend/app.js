@@ -3,7 +3,9 @@ import cors from "cors";
 import express from "express";
 import session from "express-session";
 import passport from "passport";
+
 import authRouter from "./routes/authRouter.js";
+import tasksRouter from "./routes/tasksRouter.js";
 import "./config/passport.js";
 
 const app = express();
@@ -31,6 +33,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/auth", authRouter);
+app.use("/tasks", tasksRouter);
 
 // Centralized error handler
 app.use((err, req, res, next) => {
