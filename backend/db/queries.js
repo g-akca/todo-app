@@ -43,4 +43,17 @@ async function getTasksByUserId(userId) {
   }
 }
 
-export { getUserByEmail, getUserById, createUser, getTasksByUserId };
+async function createTask(userId, description) {
+  try {
+    const result = await pool.query(
+      "INSERT INTO tasks (user_id, description) VALUES ($1, $2) RETURNING id, user_id, description, is_completed", 
+      [userId, description]
+    );
+    return result.rows[0];
+  } catch (error) {
+    console.error("Error creating task:", error);
+    throw(error);
+  }
+}
+
+export { getUserByEmail, getUserById, createUser, getTasksByUserId, createTask };
