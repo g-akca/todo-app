@@ -1,44 +1,34 @@
+import { useEffect } from "react";
+import { useState } from "react";
 import TabList from "./TabList";
 import TodoItem from "./TodoItem";
 
-const todoItems = [
-  {
-    id: 0,
-    isCompleted: true,
-    task: "Complete online JavaScript course"
-  },
-  {
-    id: 1,
-    isCompleted: false,
-    task: "Jog around the park 3x"
-  },
-  {
-    id: 2,
-    isCompleted: false,
-    task: "10 minutes meditation"
-  },
-  {
-    id: 3,
-    isCompleted: false,
-    task: "Read for 1 hour"
-  },
-  {
-    id: 4,
-    isCompleted: false,
-    task: "Pick up groceries"
-  },
-  {
-    id: 5,
-    isCompleted: false,
-    task: "Complete Todo App on Frontend Mentor"
-  },
-];
-
 function TodoList() {
-  const itemsLeft = todoItems.filter(item => !item.isCompleted).length;
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/tasks", {
+      credentials: "include",
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        if (res.ok) return data;
+
+        throw new Error(data.error || "Failed to fetch tasks");
+      })
+      .then((data) => setTasks(data.tasks ?? []))
+      .catch(() => setTasks([]));
+  }, []);
+
+  const itemsLeft = tasks.filter(item => !item.is_completed).length;
 
   return (
-    <div className="bg-navy-900 rounded-[5px] shadow-[0_35px_50px_rgba(0,0,0,0.5)] light:bg-white light:shadow-[0_35px_50px_rgba(194,195,214,0.5)]">
+    <div 
+      className="
+        bg-navy-900 rounded-[5px] shadow-[0_35px_50px_rgba(0,0,0,0.5)] 
+        light:bg-white light:shadow-[0_35px_50px_rgba(194,195,214,0.5)]
+      "
+    >
       {todoItems.map(item => (
         <TodoItem
           key={item.id}
