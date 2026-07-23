@@ -1,24 +1,9 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useTasks } from "../context/TasksContext";
 import TabList from "./TabList";
 import TodoItem from "./TodoItem";
 
 function TodoList() {
-  const [tasks, setTasks] = useState([]);
-
-  useEffect(() => {
-    fetch("http://localhost:3000/tasks", {
-      credentials: "include",
-    })
-      .then(async (res) => {
-        const data = await res.json();
-        if (res.ok) return data;
-
-        throw new Error(data.error || "Failed to fetch tasks");
-      })
-      .then((data) => setTasks(data.tasks ?? []))
-      .catch(() => setTasks([]));
-  }, []);
+  const { tasks } = useTasks();
 
   const itemsLeft = tasks.filter(item => !item.is_completed).length;
 

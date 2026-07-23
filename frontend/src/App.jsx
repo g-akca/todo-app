@@ -5,6 +5,7 @@ import SignupWrapper from "./components/SignupWrapper";
 import MainSection from "./components/MainSection";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Routes, Route, Navigate } from "react-router";
+import { TasksProvider } from "./context/TasksContext";
 
 function App() {
   return (
@@ -24,7 +25,9 @@ function App() {
             path="/" 
             element={
               <ProtectedRoute allowedRole="authenticated">
-                <MainSection />
+                <TasksProvider>
+                  <MainSection />
+                </TasksProvider>
               </ProtectedRoute>
             } 
           />
