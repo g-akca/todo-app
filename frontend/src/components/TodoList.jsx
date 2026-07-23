@@ -29,10 +29,12 @@ function TodoList() {
         light:bg-white light:shadow-[0_35px_50px_rgba(194,195,214,0.5)]
       "
     >
-      {todoItems.map(item => (
+      {tasks.map(item => (
         <TodoItem
           key={item.id}
-          {...item}
+          id={item.id}
+          description={item.description}
+          isCompleted={item.is_completed}
         />
       ))}
 
