@@ -17,4 +17,18 @@ tasksRouter.get("/", async (req, res, next) => {
   }
 });
 
+tasksRouter.post("/", async(req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const newTask = await createTask(req.user.id, req.body.description);
+
+    return res.status(200).json({ newTask });
+  } catch (error) {
+    return next(error);
+  }
+});
+
 export default tasksRouter;
