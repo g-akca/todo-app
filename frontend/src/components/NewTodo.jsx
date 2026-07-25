@@ -1,6 +1,22 @@
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { useTasks } from "../context/TasksContext";
+
 function NewTodo() {
+  const { user } = useAuth();
+  const { createTask } = useTasks();
+  const [todo, setTodo] = useState("");
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    await createTask(todo);
+    setTodo("");
+  }
+
   return (
     <form 
+      onSubmit={handleSubmit}
       className="
         bg-navy-900 h-12 px-6 rounded-[5px] shadow-[0_35px_50px_rgba(0,0,0,0.5)] flex items-center 
         gap-4 tablet:h-16 tablet:gap-6 light:bg-white light:shadow-[0_35px_50px_rgba(194,195,214,0.5)]
@@ -12,6 +28,8 @@ function NewTodo() {
         type="text"
         id="todo"
         placeholder="Create a new todo…"
+        onChange={(e) => setTodo(e.target.value)}
+        value={todo}
         className="
           w-full py-1 text-gray-600 mt-px caret-blue-500 placeholder:text-gray-600 
           tablet:text-[18px] tablet:leading-base tablet:mt-0.5 focus:outline-none light:text-purple-800
