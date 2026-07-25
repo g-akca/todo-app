@@ -56,4 +56,14 @@ async function createTask(userId, description) {
   }
 }
 
-export { getUserByEmail, getUserById, createUser, getTasksByUserId, createTask };
+async function updateTaskCompletion(id, isCompleted) {
+  try {
+    const result = await pool.query("UPDATE tasks SET is_completed = $1 WHERE id = $2", [!isCompleted, id]);
+    return result.rows[0];
+  } catch (error) {
+    console.error("Error updating task completion state:", error);
+    throw(error);
+  }
+}
+
+export { getUserByEmail, getUserById, createUser, getTasksByUserId, createTask, updateTaskCompletion };
