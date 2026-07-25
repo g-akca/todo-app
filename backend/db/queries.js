@@ -58,7 +58,10 @@ async function createTask(userId, description) {
 
 async function updateTaskCompletion(id, isCompleted) {
   try {
-    const result = await pool.query("UPDATE tasks SET is_completed = $1 WHERE id = $2", [!isCompleted, id]);
+    const result = await pool.query(
+      "UPDATE tasks SET is_completed = $1 WHERE id = $2 RETURNING id, user_id, description, is_completed",
+      [!isCompleted, id]
+    );
     return result.rows[0];
   } catch (error) {
     console.error("Error updating task completion state:", error);
