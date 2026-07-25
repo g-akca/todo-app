@@ -19,8 +19,25 @@ export function TasksProvider({ children }) {
       .catch(() => setTasks([]));
   }, []);
 
+  async function createTask(description) {
+    fetch("http://localhost:3000/tasks", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ description }),
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        if (res.ok) return data;
+
+        throw new Error(data.error || "Failed to create new task");
+      })
+      .then((data) => setTasks((prevTasks) => [...prevTasks, data]))
+      .catch((e) => console.error(e));
+  }
+
   return (
-    <TasksContext.Provider value={{ tasks }}>
+    <TasksContext.Provider value={{ tasks, createTask }}>
       {children}
     </TasksContext.Provider>
   )
