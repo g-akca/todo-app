@@ -20,7 +20,7 @@ export function TasksProvider({ children }) {
   }, []);
 
   async function createTask(description) {
-    fetch("http://localhost:3000/tasks", {
+    return fetch("http://localhost:3000/tasks", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -32,7 +32,7 @@ export function TasksProvider({ children }) {
 
         throw new Error(data.error || "Failed to create new task");
       })
-      .then((data) => setTasks((prevTasks) => [...prevTasks, data]))
+      .then((data) => setTasks((prevTasks) => [...prevTasks, data.newTask]))
       .catch((e) => console.error(e));
   }
 
