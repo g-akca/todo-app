@@ -57,8 +57,28 @@ export function TasksProvider({ children }) {
       .catch((e) => console.error(e));
   }
 
+  async function deleteTask(id) {
+    return fetch(`http://localhost:3000/tasks/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        if (res.ok) return data;
+
+        throw new Error(data.error || "Failed to delete task");
+      })
+      .then((data) => setTasks((prevTasks) =>
+        prevTasks.filter((task) =>
+          task.id !== id
+        )
+      ))
+      .catch((e) => console.error(e));
+  }
+
   return (
-    <TasksContext.Provider value={{ tasks, createTask, updateTaskCompletion }}>
+    <TasksContext.Provider value={{ tasks, createTask, updateTaskCompletion, deleteTask }}>
       {children}
     </TasksContext.Provider>
   )
