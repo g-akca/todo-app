@@ -36,8 +36,29 @@ export function TasksProvider({ children }) {
       .catch((e) => console.error(e));
   }
 
+  async function updateTaskCompletion(id, isCompleted) {
+    return fetch(`http://localhost:3000/tasks/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ isCompleted }),
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        if (res.ok) return data;
+
+        throw new Error(data.error || "Failed to update task");
+      })
+      .then((data) => setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.id === data.updatedTask.id ? data.updatedTask : task
+        )
+      ))
+      .catch((e) => console.error(e));
+  }
+
   return (
-    <TasksContext.Provider value={{ tasks, createTask }}>
+    <TasksContext.Provider value={{ tasks, createTask, updateTaskCompletion }}>
       {children}
     </TasksContext.Provider>
   )
