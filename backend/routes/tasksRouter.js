@@ -53,7 +53,7 @@ tasksRouter.delete("/:id", async (req, res, next) => {
 
     await deleteTask(req.params.id);
 
-    return res.status(200);
+    return res.status(200).end();
   } catch (error) {
     return next(error);
   }

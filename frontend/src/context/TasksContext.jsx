@@ -64,12 +64,12 @@ export function TasksProvider({ children }) {
       credentials: "include",
     })
       .then(async (res) => {
-        const data = await res.json();
-        if (res.ok) return data;
+        if (res.ok) return;
 
+        const data = await res.json();
         throw new Error(data.error || "Failed to delete task");
       })
-      .then((data) => setTasks((prevTasks) =>
+      .then(() => setTasks((prevTasks) =>
         prevTasks.filter((task) =>
           task.id !== id
         )
