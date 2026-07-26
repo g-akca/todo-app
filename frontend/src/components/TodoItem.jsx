@@ -3,15 +3,12 @@ import Checkbox from "./Checkbox";
 import { useTasks } from "../context/TasksContext";
 
 function TodoItem({ id, description, isCompleted }) {
-  const { updateTaskCompletion } = useTasks();
-
-  async function handleClick() {
-    await updateTaskCompletion(id, !isCompleted);
-  }
+  const { updateTaskCompletion, deleteTask } = useTasks();
 
   return (
     <button 
-      onClick={handleClick}
+      type="button"
+      onClick={() => updateTaskCompletion(id, !isCompleted)}
       className="
         group w-full py-4 px-5 border-b border-purple-800 flex justify-between 
         items-center gap-4 cursor-pointer tablet:p-6 light:border-purple-300
@@ -31,8 +28,12 @@ function TodoItem({ id, description, isCompleted }) {
       </div>
 
       <div 
-        className="shrink-0 cursor-pointer transition-all duration-200 desktop:opacity-0 desktop:group-hover:opacity-100" 
         role="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          deleteTask(id);
+        }}
+        className="shrink-0 cursor-pointer transition-all duration-200 desktop:opacity-0 desktop:group-hover:opacity-100" 
       >
         <img src={crossIcon} alt="Remove icon" className="w-3 aspect-square tablet:w-4.25" />
       </div>
