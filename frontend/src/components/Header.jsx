@@ -37,7 +37,7 @@ function Header() {
   };
 
   return (
-    <header className="flex justify-between items-center gap-4">
+    <header className="flex justify-between items-center gap-3 tablet:gap-4">
       <h1 
         className="
           uppercase text-white tracking-[10px] text-[26px] leading-base 
@@ -49,12 +49,12 @@ function Header() {
 
       <div className="flex flex-col items-end gap-3 tablet:flex-row tablet:items-center tablet:gap-4">
         {user && (
-          <span className="text-[14px] text-purple-300 tablet:text-[16px]">
+          <span className="max-sm:max-w-30 max-w-50 truncate text-[13px] text-purple-300 tablet:text-[16px]">
             {user.email}
           </span>
         )}
 
-        <div className="flex flex-row-reverse items-center gap-3 tablet:flex-row tablet:gap-4">
+        <div className="shrink-0 flex flex-row-reverse items-center gap-3 tablet:flex-row tablet:gap-4">
           {user && (
             <button
               type="button"
@@ -72,7 +72,7 @@ function Header() {
           <button 
             type="button" 
             onClick={() => setDarkMode(prev => !prev)} 
-            className="shrink-0 cursor-pointer transition-all duration-200 hover:scale-[1.15] active:scale-[1.03]"
+            className="cursor-pointer transition-all duration-200 hover:scale-[1.15] active:scale-[1.03]"
           >
             <img 
               src={darkMode ? sunIcon : moonIcon} 
