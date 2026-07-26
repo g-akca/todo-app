@@ -6,6 +6,7 @@ function TodoList() {
   const { tasks } = useTasks();
 
   const itemsLeft = tasks.filter(item => !item.is_completed).length;
+  const completedTasksCount = tasks.filter(item => item.is_completed).length;
 
   return (
     <div 
@@ -32,7 +33,8 @@ function TodoList() {
 
         <button 
           type="button" 
-          className="cursor-pointer transition-all tablet:justify-self-end hover:text-purple-300 light:hover:text-navy-850"
+          disabled={completedTasksCount === 0}
+          className={`transition-all tablet:justify-self-end ${completedTasksCount === 0 ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:text-purple-300 light:hover:text-navy-850"}`}
         >
           Clear Completed
         </button>
