@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getTasksByUserId, createTask, updateTaskCompletion } from "../db/queries.js";
+import { getTasksByUserId, createTask, updateTaskCompletion, deleteTask } from "../db/queries.js";
 
 const tasksRouter = Router();
 
@@ -40,6 +40,20 @@ tasksRouter.patch("/:id", async (req, res, next) => {
     const updatedTask = await updateTaskCompletion(req.params.id, req.body.isCompleted);
 
     return res.status(200).json({ updatedTask });
+  } catch (error) {
+    return next(error);
+  }
+});
+
+tasksRouter.delete("/:id", async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    await deleteTask(req.params.id);
+
+    return res.status(200);
   } catch (error) {
     return next(error);
   }
