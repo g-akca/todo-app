@@ -1,9 +1,17 @@
 import crossIcon from "/images/icon-cross.svg";
 import Checkbox from "./Checkbox";
+import { useTasks } from "../context/TasksContext";
 
 function TodoItem({ id, description, isCompleted }) {
+  const { updateTaskCompletion } = useTasks();
+
+  async function handleClick() {
+    await updateTaskCompletion(id, !isCompleted);
+  }
+
   return (
     <button 
+      onClick={handleClick}
       className="
         group w-full py-4 px-5 border-b border-purple-800 flex justify-between 
         items-center gap-4 cursor-pointer tablet:p-6 light:border-purple-300
