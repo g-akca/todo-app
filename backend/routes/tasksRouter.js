@@ -37,7 +37,7 @@ tasksRouter.patch("/:id", async (req, res, next) => {
       return res.status(401).json({ error: "Unauthorized" });
     }
 
-    const updatedTask = await updateTaskCompletion(req.params.id, req.body.isCompleted);
+    const updatedTask = await updateTaskCompletion(req.params.id, !req.body.isCompleted);
 
     return res.status(200).json({ updatedTask });
   } catch (error) {

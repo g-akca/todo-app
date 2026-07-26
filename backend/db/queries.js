@@ -60,7 +60,7 @@ async function updateTaskCompletion(id, isCompleted) {
   try {
     const result = await pool.query(
       "UPDATE tasks SET is_completed = $1 WHERE id = $2 RETURNING id, user_id, description, is_completed",
-      [!isCompleted, id]
+      [isCompleted, id]
     );
     return result.rows[0];
   } catch (error) {
