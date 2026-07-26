@@ -69,4 +69,13 @@ async function updateTaskCompletion(id, isCompleted) {
   }
 }
 
-export { getUserByEmail, getUserById, createUser, getTasksByUserId, createTask, updateTaskCompletion };
+async function deleteTask(id) {
+  try {
+    await pool.query("DELETE FROM tasks WHERE id = $1", [id]);
+  } catch (error) {
+    console.error("Error deleting task:", error);
+    throw(error);
+  }
+}
+
+export { getUserByEmail, getUserById, createUser, getTasksByUserId, createTask, updateTaskCompletion, deleteTask };
