@@ -3,10 +3,26 @@ import TabList from "./TabList";
 import TodoItem from "./TodoItem";
 
 function TodoList() {
-  const { tasks } = useTasks();
+  const { tasks, selectedTabIndex } = useTasks();
 
   const itemsLeft = tasks.filter(item => !item.is_completed).length;
   const completedTasksCount = tasks.filter(item => item.is_completed).length;
+
+  let filteredTasks = tasks;
+
+  switch (selectedTabIndex) {
+    case 0:
+      filteredTasks = tasks;
+      break;
+    case 1:
+      filteredTasks = tasks.filter(task => !task.is_completed);
+      break;
+    case 2:
+      filteredTasks = tasks.filter(task => task.is_completed);
+      break;
+    default:
+      filteredTasks = tasks;
+  }
 
   return (
     <div 
@@ -15,7 +31,7 @@ function TodoList() {
         light:bg-white light:shadow-[0_35px_50px_rgba(194,195,214,0.5)]
       "
     >
-      {tasks.map(item => (
+      {filteredTasks.map(item => (
         <TodoItem
           key={item.id}
           id={item.id}
