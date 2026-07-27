@@ -1,10 +1,10 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useMemo } from "react";
 
 const TasksContext = createContext();
 
 export function TasksProvider({ children }) {
   const [tasks, setTasks] = useState([]);
-  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+  const [selectedTab, setSelectedTab] = useState("all");
   
   useEffect(() => {
     fetch("http://localhost:3000/tasks", {
@@ -78,8 +78,42 @@ export function TasksProvider({ children }) {
       .catch((e) => console.error(e));
   }
 
+  const filteredTasks = useMemo(() => {
+    switch (selectedTab) {
+      case "active":
+        return tasks.filter((task) => !task.is_completed);
+      case "completed":
+        return tasks.filter((task) => task.is_completed);
+      case "all":
+      default:
+        return tasks;
+    }
+  }, [tasks, selectedTab]);
+
+  const itemsLeft = useMemo(
+    () => tasks.filter((task) => !task.is_completed).length,
+    [tasks]
+  );
+
+  const completedTasksCount = useMemo(
+    () => tasks.filter((task) => task.is_completed).length,
+    [tasks]
+  );
+
   return (
-    <TasksContext.Provider value={{ tasks, selectedTabIndex, setSelectedTabIndex, createTask, updateTaskCompletion, deleteTask }}>
+    <TasksContext.Provider
+      value={{
+        tasks,
+        selectedTab,
+        setSelectedTab,
+        filteredTasks,
+        itemsLeft,
+        completedTasksCount,
+        createTask,
+        updateTaskCompletion,
+        deleteTask,
+      }}
+    >
       {children}
     </TasksContext.Provider>
   )

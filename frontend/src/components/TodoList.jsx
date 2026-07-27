@@ -3,26 +3,7 @@ import TabList from "./TabList";
 import TodoItem from "./TodoItem";
 
 function TodoList() {
-  const { tasks, selectedTabIndex } = useTasks();
-
-  const itemsLeft = tasks.filter(item => !item.is_completed).length;
-  const completedTasksCount = tasks.filter(item => item.is_completed).length;
-
-  let filteredTasks = tasks;
-
-  switch (selectedTabIndex) {
-    case 0:
-      filteredTasks = tasks;
-      break;
-    case 1:
-      filteredTasks = tasks.filter(task => !task.is_completed);
-      break;
-    case 2:
-      filteredTasks = tasks.filter(task => task.is_completed);
-      break;
-    default:
-      filteredTasks = tasks;
-  }
+  const { filteredTasks, itemsLeft, completedTasksCount } = useTasks();
 
   return (
     <div 
