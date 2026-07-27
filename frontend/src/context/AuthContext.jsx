@@ -20,7 +20,7 @@ export function AuthProvider({ children }) {
       .finally(() => setLoading(false));
   }, []);
 
-  const login = async (email, password, rememberMe) => {
+  async function login(email, password, rememberMe) {
     const res = await fetch("http://localhost:3000/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -38,7 +38,7 @@ export function AuthProvider({ children }) {
     return data.user;
   };
 
-  const signup = async (email, password, confirmPassword, rememberMe) => {
+  async function signup(email, password, confirmPassword, rememberMe) {
     const res = await fetch("http://localhost:3000/auth/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -56,7 +56,7 @@ export function AuthProvider({ children }) {
     return data.user;
   };
 
-  const logout = async () => {
+  async function logout() {
     await fetch("http://localhost:3000/auth/logout", {
       method: "POST",
       credentials: "include",
