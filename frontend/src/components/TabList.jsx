@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTasks } from "../context/TasksContext";
 
 const tabs = [
   {
@@ -16,7 +17,7 @@ const tabs = [
 ];
 
 function TabList() {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const { selectedTabIndex, setSelectedTabIndex } = useTasks();
 
   return (
     <div className="flex items-center gap-4 font-bold text-[14px] leading-base">
@@ -24,8 +25,8 @@ function TabList() {
         <button
           key={tab.index}
           type="button"
-          onClick={() => setSelectedIndex(tab.index)}
-          className={`cursor-pointer transition-all ${selectedIndex === tab.index ? "text-blue-500" : "hover:text-purple-300 light:hover:text-navy-850"}`}
+          onClick={() => setSelectedTabIndex(tab.index)}
+          className={`cursor-pointer transition-all ${selectedTabIndex === tab.index ? "text-blue-500" : "hover:text-purple-300 light:hover:text-navy-850"}`}
         >
           {tab.name}
         </button>

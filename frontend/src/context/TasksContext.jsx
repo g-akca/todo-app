@@ -4,6 +4,7 @@ const TasksContext = createContext();
 
 export function TasksProvider({ children }) {
   const [tasks, setTasks] = useState([]);
+  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   
   useEffect(() => {
     fetch("http://localhost:3000/tasks", {
@@ -78,7 +79,7 @@ export function TasksProvider({ children }) {
   }
 
   return (
-    <TasksContext.Provider value={{ tasks, createTask, updateTaskCompletion, deleteTask }}>
+    <TasksContext.Provider value={{ tasks, selectedTabIndex, setSelectedTabIndex, createTask, updateTaskCompletion, deleteTask }}>
       {children}
     </TasksContext.Provider>
   )
