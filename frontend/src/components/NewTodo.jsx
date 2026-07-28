@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
 import { useTasks } from "../context/TasksContext";
 
 function NewTodo() {
-  const { user } = useAuth();
   const { createTask } = useTasks();
   const [todo, setTodo] = useState("");
 

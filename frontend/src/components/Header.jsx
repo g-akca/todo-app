@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate } from "react-router";
 import sunIcon from "/images/icon-sun.svg";
 import moonIcon from "/images/icon-moon.svg";
 
@@ -8,7 +8,6 @@ function Header() {
   const [darkMode, setDarkMode] = useState(true);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
