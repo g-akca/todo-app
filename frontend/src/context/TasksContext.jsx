@@ -77,6 +77,24 @@ export function TasksProvider({ children }) {
       ))
       .catch((e) => console.error(e));
   }
+  
+  async function deleteCompletedTasks() {
+    return fetch(`http://localhost:3000/tasks/completed`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    })
+      .then(async (res) => {
+        if (res.ok) return;
+
+        const data = await res.json();
+        throw new Error(data.error || "Failed to delete completed tasks");
+      })
+      .then(() => setTasks((prevTasks) =>
+        prevTasks.filter((task) => !task.is_completed)
+      ))
+      .catch((e) => console.error(e));
+  }
 
   const filteredTasks = useMemo(() => {
     switch (selectedTab) {
@@ -112,6 +130,7 @@ export function TasksProvider({ children }) {
         createTask,
         updateTaskCompletion,
         deleteTask,
+        deleteCompletedTasks,
       }}
     >
       {children}

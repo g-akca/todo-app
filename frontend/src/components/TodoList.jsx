@@ -3,7 +3,7 @@ import TabList from "./TabList";
 import TodoItem from "./TodoItem";
 
 function TodoList() {
-  const { filteredTasks, itemsLeft, completedTasksCount } = useTasks();
+  const { filteredTasks, itemsLeft, completedTasksCount, deleteCompletedTasks } = useTasks();
 
   return (
     <div 
@@ -30,6 +30,7 @@ function TodoList() {
 
         <button 
           type="button" 
+          onClick={() => deleteCompletedTasks()}
           disabled={completedTasksCount === 0}
           className={`transition-all tablet:justify-self-end ${completedTasksCount === 0 ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:text-purple-300 light:hover:text-navy-850"}`}
         >
