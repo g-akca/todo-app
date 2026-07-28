@@ -2,42 +2,65 @@ import crossIcon from "/images/icon-cross.svg";
 import Checkbox from "./Checkbox";
 import { useTasks } from "../context/TasksContext";
 
-function TodoItem({ id, description, isCompleted }) {
+function TodoItem({
+  id,
+  description,
+  isCompleted,
+  isDragging,
+  isDropTarget,
+  onDragStart,
+  onDragOver,
+  onDrop,
+  onDragEnd,
+}) {
   const { updateTaskCompletion, deleteTask } = useTasks();
 
   return (
-    <button 
-      type="button"
-      onClick={() => updateTaskCompletion(id, !isCompleted)}
-      className="
-        group w-full py-4 px-5 border-b border-purple-800 flex justify-between 
-        items-center gap-4 cursor-pointer tablet:p-6 light:border-purple-300
-      "
+    <div
+      draggable
+      onDragStart={onDragStart}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+      onDragEnd={onDragEnd}
+      className={`
+        group w-full border-b border-purple-800 bg-navy-900 transition-all duration-200
+        ${isDragging ? "opacity-50" : "opacity-100"}
+        ${isDropTarget ? "bg-purple-950/50" : ""}
+        light:bg-white light:border-purple-300
+      `}
     >
-      <div className="flex items-center gap-4 tablet:gap-6">
-        <Checkbox isCompleted={isCompleted} />
-
-        <p 
-          className={`
-            mt-px tablet:text-[18px] tablet:leading-base tablet:mt-1 
-            ${isCompleted ? "text-purple-700 line-through light:text-gray-300" : "text-purple-100 light:text-navy-850"}
-          `}
-        >
-          {description}
-        </p>
-      </div>
-
-      <div 
-        role="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          deleteTask(id);
-        }}
-        className="shrink-0 cursor-pointer transition-all duration-200 desktop:opacity-0 desktop:group-hover:opacity-100" 
+      <button
+        type="button"
+        onClick={() => updateTaskCompletion(id, !isCompleted)}
+        className="
+          w-full py-4 px-5 flex justify-between items-center gap-4 cursor-pointer tablet:p-6
+        "
       >
-        <img src={crossIcon} alt="Remove icon" className="w-3 aspect-square tablet:w-4.25" />
-      </div>
-    </button>
+        <div className="flex items-center gap-4 tablet:gap-6">
+          <Checkbox isCompleted={isCompleted} />
+
+          <p
+            className={`
+              mt-px tablet:text-[18px] tablet:leading-base tablet:mt-1
+              ${isCompleted ? "text-purple-700 line-through light:text-gray-300" : "text-purple-100 light:text-navy-850"}
+            `}
+          >
+            {description}
+          </p>
+        </div>
+
+        <div
+          role="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            deleteTask(id);
+          }}
+          className="shrink-0 cursor-pointer transition-all duration-200 desktop:opacity-0 desktop:group-hover:opacity-100"
+        >
+          <img src={crossIcon} alt="Remove icon" className="w-3 aspect-square tablet:w-4.25" />
+        </div>
+      </button>
+    </div>
   )
 }
 

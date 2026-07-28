@@ -1,9 +1,21 @@
+import { useState } from "react";
 import { useTasks } from "../context/TasksContext";
 import TabList from "./TabList";
 import TodoItem from "./TodoItem";
 
 function TodoList() {
-  const { filteredTasks, itemsLeft, completedTasksCount, deleteCompletedTasks } = useTasks();
+  const { filteredTasks, itemsLeft, completedTasksCount, deleteCompletedTasks, reorderTasks } = useTasks();
+  const [draggedTaskId, setDraggedTaskId] = useState(null);
+  const [dropTargetId, setDropTargetId] = useState(null);
+
+  function handleDrop(targetTaskId) {
+    if (draggedTaskId && draggedTaskId !== targetTaskId) {
+      reorderTasks(draggedTaskId, targetTaskId);
+    }
+
+    setDraggedTaskId(null);
+    setDropTargetId(null);
+  }
 
   return (
     <div 
@@ -18,6 +30,20 @@ function TodoList() {
           id={item.id}
           description={item.description}
           isCompleted={item.is_completed}
+          isDragging={draggedTaskId === item.id}
+          isDropTarget={dropTargetId === item.id}
+          onDragStart={() => setDraggedTaskId(item.id)}
+          onDragOver={(event) => {
+            event.preventDefault();
+            if (draggedTaskId && draggedTaskId !== item.id) {
+              setDropTargetId(item.id);
+            }
+          }}
+          onDrop={() => handleDrop(item.id)}
+          onDragEnd={() => {
+            setDraggedTaskId(null);
+            setDropTargetId(null);
+          }}
         />
       ))}
 

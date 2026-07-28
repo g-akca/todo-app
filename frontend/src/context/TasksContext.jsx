@@ -58,6 +58,23 @@ export function TasksProvider({ children }) {
       .catch((e) => console.error(e));
   }
 
+  function reorderTasks(draggedTaskId, targetTaskId) {
+    setTasks((prevTasks) => {
+      const sourceIndex = prevTasks.findIndex((task) => task.id === draggedTaskId);
+      const targetIndex = prevTasks.findIndex((task) => task.id === targetTaskId);
+
+      if (sourceIndex === -1 || targetIndex === -1 || sourceIndex === targetIndex) {
+        return prevTasks;
+      }
+
+      const updatedTasks = [...prevTasks];
+      const [movedTask] = updatedTasks.splice(sourceIndex, 1);
+      updatedTasks.splice(targetIndex, 0, movedTask);
+
+      return updatedTasks;
+    });
+  }
+
   async function deleteTask(id) {
     return fetch(`http://localhost:3000/tasks/${id}`, {
       method: "DELETE",
@@ -129,6 +146,7 @@ export function TasksProvider({ children }) {
         completedTasksCount,
         createTask,
         updateTaskCompletion,
+        reorderTasks,
         deleteTask,
         deleteCompletedTasks,
       }}
