@@ -45,20 +45,6 @@ tasksRouter.patch("/:id", async (req, res, next) => {
   }
 });
 
-tasksRouter.delete("/:id", async (req, res, next) => {
-  try {
-    if (!req.user) {
-      return res.status(401).json({ error: "Unauthorized" });
-    }
-
-    await deleteTask(req.params.id);
-
-    return res.status(200).end();
-  } catch (error) {
-    return next(error);
-  }
-});
-
 tasksRouter.delete("/completed", async (req, res, next) => {
   try {
     if (!req.user) {
@@ -66,6 +52,20 @@ tasksRouter.delete("/completed", async (req, res, next) => {
     }
 
     await deleteCompletedTasks();
+
+    return res.status(200).end();
+  } catch (error) {
+    return next(error);
+  }
+});
+
+tasksRouter.delete("/:id", async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    await deleteTask(req.params.id);
 
     return res.status(200).end();
   } catch (error) {
