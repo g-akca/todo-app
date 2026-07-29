@@ -30,9 +30,9 @@ Users should be able to:
 
 ### Screenshot
 
-![](./public/images/screenshot_login.png)
+![](./frontend/public/images/screenshot_login.png)
 
-![](./public/images/screenshot.png)
+![](./frontend/public/images/screenshot.png)
 
 ### Links
 
