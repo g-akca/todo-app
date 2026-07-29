@@ -50,6 +50,7 @@ function LoginSection() {
           <input
             id="email"
             type="email"
+            autocomplete="username"
             placeholder="name@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -68,6 +69,7 @@ function LoginSection() {
           <input
             id="password"
             type="password"
+            autocomplete="current-password"
             placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}

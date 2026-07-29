@@ -52,6 +52,7 @@ function SignupSection() {
           <input
             id="email"
             type="email"
+            autocomplete="email"
             placeholder="name@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -70,6 +71,7 @@ function SignupSection() {
           <input
             id="password"
             type="password"
+            autocomplete="new-password"
             placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -88,6 +90,7 @@ function SignupSection() {
           <input
             id="confirmPassword"
             type="password"
+            autocomplete="new-password"
             placeholder="Enter your password again"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
