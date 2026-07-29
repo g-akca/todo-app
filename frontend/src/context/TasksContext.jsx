@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, useMemo } from "react";
+import { buildApiUrl } from "../config/api";
 
 const TasksContext = createContext();
 
@@ -7,7 +8,7 @@ export function TasksProvider({ children }) {
   const [selectedTab, setSelectedTab] = useState("all");
   
   useEffect(() => {
-    fetch("http://localhost:3000/tasks", {
+    fetch(buildApiUrl("/tasks"), {
       credentials: "include",
     })
       .then(async (res) => {
@@ -21,7 +22,7 @@ export function TasksProvider({ children }) {
   }, []);
 
   async function createTask(description) {
-    return fetch("http://localhost:3000/tasks", {
+    return fetch(buildApiUrl("/tasks"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -38,7 +39,7 @@ export function TasksProvider({ children }) {
   }
 
   async function updateTaskCompletion(id, isCompleted) {
-    return fetch(`http://localhost:3000/tasks/${id}`, {
+    return fetch(buildApiUrl(`/tasks/${id}`), {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -76,7 +77,7 @@ export function TasksProvider({ children }) {
   }
 
   async function deleteTask(id) {
-    return fetch(`http://localhost:3000/tasks/${id}`, {
+    return fetch(buildApiUrl(`/tasks/${id}`), {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -96,7 +97,7 @@ export function TasksProvider({ children }) {
   }
   
   async function deleteCompletedTasks() {
-    return fetch(`http://localhost:3000/tasks/completed`, {
+    return fetch(buildApiUrl("/tasks/completed"), {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
