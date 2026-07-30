@@ -78,9 +78,9 @@ async function deleteTask(id) {
   }
 }
 
-async function deleteCompletedTasks() {
+async function deleteCompletedTasks(userId) {
   try {
-    await pool.query("DELETE FROM tasks WHERE is_completed = TRUE");
+    await pool.query("DELETE FROM tasks WHERE user_id = $1 AND is_completed = TRUE", [userId]);
   } catch (error) {
     console.error("Error deleting completed tasks:", error);
     throw(error);

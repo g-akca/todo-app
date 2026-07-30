@@ -51,7 +51,7 @@ tasksRouter.delete("/completed", async (req, res, next) => {
       return res.status(401).json({ error: "Unauthorized" });
     }
 
-    await deleteCompletedTasks();
+    await deleteCompletedTasks(req.user.id);
 
     return res.status(200).end();
   } catch (error) {
