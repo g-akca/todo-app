@@ -34,8 +34,10 @@ export function TasksProvider({ children }) {
 
         throw new Error(data.error || "Failed to create new task");
       })
-      .then((data) => setTasks((prevTasks) => [...prevTasks, data.newTask]))
-      .catch((e) => console.error(e));
+      .then((data) => {
+        setTasks((prevTasks) => [...prevTasks, data.newTask]);
+        return data.newTask;
+      });
   }
 
   async function updateTaskCompletion(id, isCompleted) {

@@ -2,6 +2,7 @@ const EMAIL_MIN_LENGTH = 5;
 const EMAIL_MAX_LENGTH = 254;
 const PASSWORD_MIN_LENGTH = 8;
 const PASSWORD_MAX_LENGTH = 32;
+const TASK_DESCRIPTION_MAX_LENGTH = 255;
 
 export function validateSignupInput({ email, password, confirmPassword }) {
   if (!email || !password || !confirmPassword) {
@@ -32,6 +33,10 @@ export function validateTaskDescription(description) {
 
   if (!trimmed) {
     return { error: "A task description is required." };
+  }
+
+  if (trimmed.length > TASK_DESCRIPTION_MAX_LENGTH) {
+    return { error: `Task description must be ${TASK_DESCRIPTION_MAX_LENGTH} characters or fewer.` };
   }
 
   return { error: null, value: trimmed };
