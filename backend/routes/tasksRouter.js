@@ -40,11 +40,11 @@ tasksRouter.post("/", async(req, res, next) => {
 
 tasksRouter.patch("/:id", async (req, res, next) => {
   try {
-    const taskOwnerId = await getUserIdByTask(req.params.id);
-
     if (!req.user) {
       return res.status(401).json({ error: "Unauthorized" });
     }
+
+    const taskOwnerId = await getUserIdByTask(req.params.id);
 
     if (!taskOwnerId || req.user.id !== taskOwnerId) {
       return res.status(403).json({ error: "Forbidden" });
@@ -60,9 +60,7 @@ tasksRouter.patch("/:id", async (req, res, next) => {
 
 tasksRouter.delete("/completed", async (req, res, next) => {
   try {
-    const taskOwnerId = getUserIdByTask(req.params.id);
-
-    if (!req.user || req.user.id !== taskOwnerId) {
+    if (!req.user) {
       return res.status(401).json({ error: "Unauthorized" });
     }
 
@@ -76,11 +74,11 @@ tasksRouter.delete("/completed", async (req, res, next) => {
 
 tasksRouter.delete("/:id", async (req, res, next) => {
   try {
-    const taskOwnerId = await getUserIdByTask(req.params.id);
-    
     if (!req.user) {
       return res.status(401).json({ error: "Unauthorized" });
     }
+
+    const taskOwnerId = await getUserIdByTask(req.params.id);
 
     if (!taskOwnerId || req.user.id !== taskOwnerId) {
       return res.status(403).json({ error: "Forbidden" });
