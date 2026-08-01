@@ -1,34 +1,13 @@
-import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 import { useNavigate } from "react-router";
 import sunIcon from "/images/icon-sun.svg";
 import moonIcon from "/images/icon-moon.svg";
 
 function Header() {
-  const [darkMode, setDarkMode] = useState(true);
   const { user, logout } = useAuth();
+  const { darkMode, setDarkMode } = useTheme();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-
-    if (savedTheme === "light") {
-      setDarkMode(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    const root = document.getElementById("root");
-
-    if (darkMode) {
-      root.classList.remove("light");
-      localStorage.setItem("theme", "dark");
-    }
-    else {
-      root.classList.add("light");
-      localStorage.setItem("theme", "light");
-    }
-  }, [darkMode]);
 
   const handleLogout = async () => {
     await logout();
