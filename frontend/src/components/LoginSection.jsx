@@ -54,6 +54,8 @@ function LoginSection() {
             placeholder="name@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            minLength={5}
+            maxLength={254}
             required
             className="
               rounded-[5px] border border-purple-700 bg-navy-950/80 px-4 py-3 transition-all text-purple-100 
@@ -73,6 +75,8 @@ function LoginSection() {
             placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            minLength={8}
+            maxLength={72}
             required
             className="
               rounded-[5px] border border-purple-700 bg-navy-950/80 px-4 py-3 transition-all text-purple-100 
