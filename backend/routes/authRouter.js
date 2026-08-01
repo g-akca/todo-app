@@ -2,6 +2,7 @@ import { Router } from "express";
 import passport from "passport";
 import { createUser, getUserByEmail } from "../db/queries.js";
 import { hashPassword } from "../utils/passwords.js";
+import { validateSignupInput } from "../utils/validation.js";
 
 const authRouter = Router();
 
@@ -41,21 +42,12 @@ function logoutUser(req) {
 authRouter.post("/signup", async (req, res, next) => {
 	try {
 		const { email, password, confirmPassword, rememberMe } = req.body;
+		const validation = validateSignupInput({ email, password, confirmPassword });
 
-		if (!email || !password || !confirmPassword) {
-			return res.status(400).json({ error: "Email and passwords are required." });
+		if (validation.error) {
+			return res.status(400).json({ error: validation.error });
 		}
-
-		if (password !== confirmPassword) {
-			return res.status(400).json({ error: "Passwords do not match." });
-		}
-
-		if (password.length < 8) {
-			return res.status(400).json({ error: "Password must be at least 8 characters." });
-		}
-
-		const existingUser = await getUserByEmail(email);
-
+		
 		if (existingUser) {
 			return res.status(409).json({ error: "Email is already in use." });
 		}

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { getTasksByUserId, createTask, updateTaskCompletion, deleteTask, deleteCompletedTasks } from "../db/queries.js";
+import { validateTaskDescription } from "../utils/validation.js";
 
 const tasksRouter = Router();
 
@@ -23,7 +24,13 @@ tasksRouter.post("/", async(req, res, next) => {
       return res.status(401).json({ error: "Unauthorized" });
     }
 
-    const newTask = await createTask(req.user.id, req.body.description);
+    const validation = validateTaskDescription(req.body.description);
+
+    if (validation.error) {
+      return res.status(400).json({ error: validation.error });
+    }
+
+    const newTask = await createTask(req.user.id, validation.value);
 
     return res.status(200).json({ newTask });
   } catch (error) {
