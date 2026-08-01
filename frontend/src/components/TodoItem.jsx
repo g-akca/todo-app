@@ -41,7 +41,7 @@ function TodoItem({
 
           <p
             className={`
-              mt-px tablet:text-[18px] tablet:leading-base tablet:mt-1
+              text-start wrap-anywhere mt-px tablet:text-[18px] tablet:leading-base tablet:mt-1
               ${isCompleted ? "text-purple-700 line-through light:text-gray-300" : "text-purple-100 light:text-navy-850"}
             `}
           >
