@@ -47,6 +47,8 @@ authRouter.post("/signup", async (req, res, next) => {
 		if (validation.error) {
 			return res.status(400).json({ error: validation.error });
 		}
+
+		const existingUser = await getUserByEmail(email);
 		
 		if (existingUser) {
 			return res.status(409).json({ error: "Email is already in use." });
