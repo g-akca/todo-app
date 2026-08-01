@@ -6,7 +6,7 @@ import moonIcon from "/images/icon-moon.svg";
 
 function Header() {
   const { user, logout } = useAuth();
-  const { darkMode, setDarkMode } = useTheme();
+  const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -49,12 +49,12 @@ function Header() {
 
           <button 
             type="button" 
-            onClick={() => setDarkMode(prev => !prev)} 
+            onClick={() => setTheme((prev) => prev === "dark" ? "light" : "dark")} 
             className="cursor-pointer transition-all duration-200 hover:scale-[1.15] active:scale-[1.03]"
           >
             <img 
-              src={darkMode ? sunIcon : moonIcon} 
-              alt={darkMode ? "Sun icon" : "Moon icon"} 
+              src={theme === "dark" ? sunIcon : moonIcon} 
+              alt={theme === "dark" ? "Sun icon" : "Moon icon"} 
               className="w-5 aspect-square tablet:w-6.5" 
             />
           </button>
