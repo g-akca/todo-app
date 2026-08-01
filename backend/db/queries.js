@@ -43,6 +43,16 @@ async function getTasksByUserId(userId) {
   }
 }
 
+async function getUserIdByTask(taskId) {
+  try {
+    const result = await pool.query("SELECT user_id FROM tasks WHERE id = $1", [taskId]);
+    return result.rows[0]?.user_id ?? null;
+  } catch (error) {
+    console.error("Error getting user ID by task:", error);
+    throw(error);
+  }
+}
+
 async function createTask(userId, description) {
   try {
     const result = await pool.query(
@@ -87,4 +97,4 @@ async function deleteCompletedTasks(userId) {
   }
 }
 
-export { getUserByEmail, getUserById, createUser, getTasksByUserId, createTask, updateTaskCompletion, deleteTask, deleteCompletedTasks };
+export { getUserByEmail, getUserById, createUser, getTasksByUserId, getUserIdByTask, createTask, updateTaskCompletion, deleteTask, deleteCompletedTasks };
