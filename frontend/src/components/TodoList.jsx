@@ -33,14 +33,14 @@ function TodoList() {
       "
     >
       {tasksFetchError ? (
-        <div className="px-5 pt-4 pb-5 tablet:px-6">
+        <div className="p-5 text-center tablet:px-6">
           <p className="text-[14px] leading-base text-red-400 light:text-red-500">{tasksFetchError}</p>
 
           <button
             type="button"
             onClick={() => fetchTasks()}
             className="
-              mt-3 text-[14px] leading-base font-bold text-blue-400 transition-colors 
+              mt-3 text-[16px] leading-base font-bold text-blue-400 transition-colors cursor-pointer 
               hover:text-blue-300 light:text-blue-600 light:hover:text-blue-500
             "
           >
