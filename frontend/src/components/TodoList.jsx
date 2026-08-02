@@ -14,25 +14,20 @@ function TodoList() {
   } = useTasks();
   const [draggedTaskId, setDraggedTaskId] = useState(null);
   const [dropTargetId, setDropTargetId] = useState(null);
-  const [tasksFetchError, setTasksFetchError] = useState(null);
+  const [error, setError] = useState(null);
+
+  async function loadTasks() {
+    try {
+      await fetchTasks();
+      setError(null);
+    } catch (error) {
+      setError(error.message || "Failed to fetch tasks");
+    }
+  }
 
   useEffect(() => {
-    async function loadTasks() {
-      try {
-        await fetchTasks();
-
-        if (isMounted) {
-          setTasksFetchError(null);
-        }
-      } catch (error) {
-        if (isMounted) {
-          setTasksFetchError(error.message || "Failed to fetch tasks");
-        }
-      }
-    }
-
     loadTasks();
-  }, [fetchTasks]);
+  }, []);
 
   function handleDrop(targetTaskId) {
     if (draggedTaskId && draggedTaskId !== targetTaskId) {
@@ -43,15 +38,6 @@ function TodoList() {
     setDropTargetId(null);
   }
 
-  async function handleRetry() {
-    try {
-      await fetchTasks();
-      setTasksFetchError(null);
-    } catch (error) {
-      setTasksFetchError(error.message || "Failed to fetch tasks");
-    }
-  }
-
   return (
     <div 
       className="
@@ -59,13 +45,13 @@ function TodoList() {
         light:bg-white light:shadow-[0_35px_50px_rgba(194,195,214,0.5)]
       "
     >
-      {tasksFetchError ? (
+      {error ? (
         <div className="p-5 text-center tablet:px-6">
-          <p className="text-[14px] leading-base text-red-400 light:text-red-500">{tasksFetchError}</p>
+          <p className="text-[14px] leading-base text-red-400 light:text-red-500">{error}</p>
 
           <button
             type="button"
-            onClick={handleRetry}
+            onClick={loadTasks}
             className="
               mt-3 text-[16px] leading-base font-bold text-blue-400 transition-colors cursor-pointer 
               hover:text-blue-300 light:text-blue-600 light:hover:text-blue-500
