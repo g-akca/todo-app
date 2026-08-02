@@ -7,25 +7,25 @@ export function TasksProvider({ children }) {
   const [tasks, setTasks] = useState([]);
   const [selectedTab, setSelectedTab] = useState("all");
   const [tasksFetchError, setTasksFetchError] = useState(null);
+
+  async function fetchTasks() {
+    const res = await fetch(buildApiUrl("/tasks"), {
+      credentials: "include",
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      setTasks([]);
+      setTasksFetchError(e.message || "Failed to fetch tasks");
+    }
+
+    setTasks(data.tasks ?? []);
+    setTasksFetchError(null);
+  }
   
   useEffect(() => {
-    fetch(buildApiUrl("/tasks"), {
-      credentials: "include",
-    })
-      .then(async (res) => {
-        const data = await res.json();
-        if (res.ok) return data;
-
-        throw new Error(data.error);
-      })
-      .then((data) => {
-        setTasks(data.tasks ?? []);
-        setTasksFetchError(null);
-      })
-      .catch((e) => {
-        setTasks([]);
-        setTasksFetchError(e || "Failed to fetch tasks");
-      });
+    fetchTasks();
   }, []);
 
   async function createTask(description) {
@@ -144,6 +144,8 @@ export function TasksProvider({ children }) {
         filteredTasks,
         itemsLeft,
         completedTasksCount,
+        tasksFetchError,
+        fetchTasks,
         createTask,
         updateTaskCompletion,
         reorderTasks,

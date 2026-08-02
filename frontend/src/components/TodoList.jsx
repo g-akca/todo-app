@@ -9,6 +9,7 @@ function TodoList() {
     itemsLeft,
     completedTasksCount,
     tasksFetchError,
+    fetchTasks,
     deleteCompletedTasks,
     reorderTasks,
   } = useTasks();
@@ -32,9 +33,20 @@ function TodoList() {
       "
     >
       {tasksFetchError ? (
-        <p className="px-5 pt-4 text-sm text-red-400 light:text-red-500 tablet:px-6">
-          {tasksFetchError}
-        </p>
+        <div className="px-5 pt-4 pb-5 tablet:px-6">
+          <p className="text-[14px] leading-base text-red-400 light:text-red-500">{tasksFetchError}</p>
+
+          <button
+            type="button"
+            onClick={() => fetchTasks()}
+            className="
+              mt-3 text-[14px] leading-base font-bold text-blue-400 transition-colors 
+              hover:text-blue-300 light:text-blue-600 light:hover:text-blue-500
+            "
+          >
+            Retry
+          </button>
+        </div>
       ) : (
         <>
           {filteredTasks.map(item => (
