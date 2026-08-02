@@ -82,10 +82,11 @@ export function TasksProvider({ children }) {
       headers: { "Content-Type": "application/json" },
       credentials: "include",
     });
-    
-    const data = await res.json();
 
-    if (!res.ok) throw new Error(data.error || "Failed to delete task");
+    if (!res.ok) {
+      const data = await res.json();
+      throw new Error(data.error || "Failed to delete task");
+    }
     
     setTasks((prevTasks) => prevTasks.filter((task) => 
       task.id !== id
@@ -99,9 +100,10 @@ export function TasksProvider({ children }) {
       credentials: "include",
     });
 
-    const data = await res.json();
-
-    if (!res.ok) throw new Error(data.error || "Failed to delete completed tasks");
+    if (!res.ok) {
+      const data = await res.json();
+      throw new Error(data.error || "Failed to delete completed tasks");
+    }
 
     setTasks((prevTasks) => prevTasks.filter((task) => 
       !task.is_completed
