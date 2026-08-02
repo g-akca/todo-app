@@ -29,15 +29,15 @@ export function AuthProvider({ children }) {
       body: JSON.stringify({ email, password, rememberMe }),
     });
 
+    const data = await res.json();
+
     if (!res.ok) {
-      const data = await res.json();
       throw new Error(data.error || "Login failed");
     }
 
-    const data = await res.json();
     setUser(data.user);
     return data.user;
-  };
+  }
 
   async function signup(email, password, confirmPassword, rememberMe) {
     const res = await fetch(buildApiUrl("/auth/signup"), {
@@ -47,29 +47,30 @@ export function AuthProvider({ children }) {
       body: JSON.stringify({ email, password, confirmPassword, rememberMe }),
     });
 
+    const data = await res.json();
+
     if (!res.ok) {
-      const data = await res.json();
       throw new Error(data.error || "Signup failed");
     }
 
-    const data = await res.json();
     setUser(data.user);
     return data.user;
-  };
+  }
 
   async function logout() {
     await fetch(buildApiUrl("/auth/logout"), {
       method: "POST",
       credentials: "include",
     });
+
     setUser(null);
-  };
+  }
 
   return (
     <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
       {children}
     </AuthContext.Provider>
-  );
+  )
 }
 
 export function useAuth() {
