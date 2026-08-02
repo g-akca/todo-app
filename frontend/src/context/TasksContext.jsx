@@ -6,6 +6,7 @@ const TasksContext = createContext();
 export function TasksProvider({ children }) {
   const [tasks, setTasks] = useState([]);
   const [selectedTab, setSelectedTab] = useState("all");
+  const [tasksFetchError, setTasksFetchError] = useState(null);
   
   useEffect(() => {
     fetch(buildApiUrl("/tasks"), {
@@ -15,10 +16,16 @@ export function TasksProvider({ children }) {
         const data = await res.json();
         if (res.ok) return data;
 
-        throw new Error(data.error || "Failed to fetch tasks");
+        throw new Error(data.error);
       })
-      .then((data) => setTasks(data.tasks ?? []))
-      .catch(() => setTasks([]));
+      .then((data) => {
+        setTasks(data.tasks ?? []);
+        setTasksFetchError(null);
+      })
+      .catch((e) => {
+        setTasks([]);
+        setTasksFetchError(e || "Failed to fetch tasks");
+      });
   }, []);
 
   async function createTask(description) {

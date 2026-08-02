@@ -4,7 +4,14 @@ import TabList from "./TabList";
 import TodoItem from "./TodoItem";
 
 function TodoList() {
-  const { filteredTasks, itemsLeft, completedTasksCount, deleteCompletedTasks, reorderTasks } = useTasks();
+  const {
+    filteredTasks,
+    itemsLeft,
+    completedTasksCount,
+    tasksFetchError,
+    deleteCompletedTasks,
+    reorderTasks,
+  } = useTasks();
   const [draggedTaskId, setDraggedTaskId] = useState(null);
   const [dropTargetId, setDropTargetId] = useState(null);
 
@@ -24,45 +31,53 @@ function TodoList() {
         light:bg-white light:shadow-[0_35px_50px_rgba(194,195,214,0.5)]
       "
     >
-      {filteredTasks.map(item => (
-        <TodoItem
-          key={item.id}
-          id={item.id}
-          description={item.description}
-          isCompleted={item.is_completed}
-          isDragging={draggedTaskId === item.id}
-          isDropTarget={dropTargetId === item.id}
-          onDragStart={() => setDraggedTaskId(item.id)}
-          onDragOver={(event) => {
-            event.preventDefault();
-            if (draggedTaskId && draggedTaskId !== item.id) {
-              setDropTargetId(item.id);
-            }
-          }}
-          onDrop={() => handleDrop(item.id)}
-          onDragEnd={() => {
-            setDraggedTaskId(null);
-            setDropTargetId(null);
-          }}
-        />
-      ))}
+      {tasksFetchError ? (
+        <p className="px-5 pt-4 text-sm text-red-400 light:text-red-500 tablet:px-6">
+          {tasksFetchError}
+        </p>
+      ) : (
+        <>
+          {filteredTasks.map(item => (
+            <TodoItem
+              key={item.id}
+              id={item.id}
+              description={item.description}
+              isCompleted={item.is_completed}
+              isDragging={draggedTaskId === item.id}
+              isDropTarget={dropTargetId === item.id}
+              onDragStart={() => setDraggedTaskId(item.id)}
+              onDragOver={(event) => {
+                event.preventDefault();
+                if (draggedTaskId && draggedTaskId !== item.id) {
+                  setDropTargetId(item.id);
+                }
+              }}
+              onDrop={() => handleDrop(item.id)}
+              onDragEnd={() => {
+                setDraggedTaskId(null);
+                setDropTargetId(null);
+              }}
+            />
+          ))}
 
-      <div className="py-4 px-5 flex justify-between items-center tablet:p-6 tablet:grid tablet:grid-cols-3">
-        <p>{itemsLeft} items left</p>
+          <div className="py-4 px-5 flex justify-between items-center tablet:p-6 tablet:grid tablet:grid-cols-3">
+            <p>{itemsLeft} items left</p>
 
-        <div className="hidden tablet:block">
-          <TabList />
-        </div>
+            <div className="hidden tablet:block">
+              <TabList />
+            </div>
 
-        <button 
-          type="button" 
-          onClick={() => deleteCompletedTasks()}
-          disabled={completedTasksCount === 0}
-          className={`transition-all tablet:justify-self-end ${completedTasksCount === 0 ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:text-purple-300 light:hover:text-navy-850"}`}
-        >
-          Clear Completed
-        </button>
-      </div>
+            <button 
+              type="button" 
+              onClick={() => deleteCompletedTasks()}
+              disabled={completedTasksCount === 0}
+              className={`transition-all tablet:justify-self-end ${completedTasksCount === 0 ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:text-purple-300 light:hover:text-navy-850"}`}
+            >
+              Clear Completed
+            </button>
+          </div>
+        </>
+      )}
     </div>
   )
 }
