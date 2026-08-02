@@ -32,9 +32,7 @@ function TodoItem({
       <button
         type="button"
         onClick={() => updateTaskCompletion(id, !isCompleted)}
-        className="
-          w-full py-4 px-5 flex justify-between items-center gap-4 cursor-pointer tablet:p-6
-        "
+        className="w-full py-4 px-5 flex justify-between items-center gap-4 cursor-pointer tablet:p-6"
       >
         <div className="flex items-center gap-4 tablet:gap-6">
           <Checkbox isCompleted={isCompleted} />

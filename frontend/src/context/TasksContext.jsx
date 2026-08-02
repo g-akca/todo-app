@@ -22,43 +22,39 @@ export function TasksProvider({ children }) {
   }, []);
 
   async function createTask(description) {
-    return fetch(buildApiUrl("/tasks"), {
+    const res = await fetch(buildApiUrl("/tasks"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
       body: JSON.stringify({ description }),
-    })
-      .then(async (res) => {
-        const data = await res.json();
-        if (res.ok) return data;
+    });
+    
+    const data = await res.json();
+    
+    if (!res.ok) throw new Error(data.error || "Failed to create new task");
 
-        throw new Error(data.error || "Failed to create new task");
-      })
-      .then((data) => {
-        setTasks((prevTasks) => [...prevTasks, data.newTask]);
-        return data.newTask;
-      });
+    setTasks((prevTasks) => [...prevTasks, data.newTask]);
+    
+    return data.newTask;
   }
 
   async function updateTaskCompletion(id, isCompleted) {
-    return fetch(buildApiUrl(`/tasks/${id}`), {
+    const res = await fetch(buildApiUrl(`/tasks/${id}`), {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
       body: JSON.stringify({ isCompleted }),
-    })
-      .then(async (res) => {
-        const data = await res.json();
-        if (res.ok) return data;
+    });
 
-        throw new Error(data.error || "Failed to update task");
-      })
-      .then((data) => setTasks((prevTasks) =>
-        prevTasks.map((task) =>
-          task.id === data.updatedTask.id ? data.updatedTask : task
-        )
-      ))
-      .catch((e) => console.error(e));
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error || "Failed to update task");
+
+    setTasks((prevTasks) => prevTasks.map((task) =>
+      task.id === data.updatedTask.id ? data.updatedTask : task
+    ));
+
+    return data.updatedTask;
   }
 
   function reorderTasks(draggedTaskId, targetTaskId) {
@@ -79,41 +75,35 @@ export function TasksProvider({ children }) {
   }
 
   async function deleteTask(id) {
-    return fetch(buildApiUrl(`/tasks/${id}`), {
+    const res = await fetch(buildApiUrl(`/tasks/${id}`), {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-    })
-      .then(async (res) => {
-        if (res.ok) return;
+    });
+    
+    const data = await res.json();
 
-        const data = await res.json();
-        throw new Error(data.error || "Failed to delete task");
-      })
-      .then(() => setTasks((prevTasks) =>
-        prevTasks.filter((task) =>
-          task.id !== id
-        )
-      ))
-      .catch((e) => console.error(e));
+    if (!res.ok) throw new Error(data.error || "Failed to delete task");
+    
+    setTasks((prevTasks) => prevTasks.filter((task) => 
+      task.id !== id
+    ));
   }
   
   async function deleteCompletedTasks() {
-    return fetch(buildApiUrl("/tasks/completed"), {
+    const res = await fetch(buildApiUrl("/tasks/completed"), {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-    })
-      .then(async (res) => {
-        if (res.ok) return;
+    });
 
-        const data = await res.json();
-        throw new Error(data.error || "Failed to delete completed tasks");
-      })
-      .then(() => setTasks((prevTasks) =>
-        prevTasks.filter((task) => !task.is_completed)
-      ))
-      .catch((e) => console.error(e));
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error || "Failed to delete completed tasks");
+
+    setTasks((prevTasks) => prevTasks.filter((task) => 
+      !task.is_completed
+    ));
   }
 
   const filteredTasks = useMemo(() => {
