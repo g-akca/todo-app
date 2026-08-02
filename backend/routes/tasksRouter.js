@@ -4,12 +4,16 @@ import { validateTaskDescription } from "../utils/validation.js";
 
 const tasksRouter = Router();
 
-tasksRouter.get("/", async (req, res, next) => {
-  try {
-    if (!req.user) {
-      return res.status(401).json({ error: "Unauthorized" });
-    }
+function requireAuth(req, res, next) {
+  if (!req.user) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
 
+  next();
+}
+
+tasksRouter.get("/", requireAuth, async (req, res, next) => {
+  try {
     const tasks = await getTasksByUserId(req.user.id);
 
     return res.status(200).json({ tasks });
@@ -18,12 +22,8 @@ tasksRouter.get("/", async (req, res, next) => {
   }
 });
 
-tasksRouter.post("/", async(req, res, next) => {
+tasksRouter.post("/", requireAuth, async(req, res, next) => {
   try {
-    if (!req.user) {
-      return res.status(401).json({ error: "Unauthorized" });
-    }
-
     const validation = validateTaskDescription(req.body.description);
 
     if (validation.error) {
@@ -38,12 +38,8 @@ tasksRouter.post("/", async(req, res, next) => {
   }
 });
 
-tasksRouter.patch("/:id", async (req, res, next) => {
+tasksRouter.patch("/:id", requireAuth, async (req, res, next) => {
   try {
-    if (!req.user) {
-      return res.status(401).json({ error: "Unauthorized" });
-    }
-
     const taskOwnerId = await getUserIdByTask(req.params.id);
 
     if (!taskOwnerId || req.user.id !== taskOwnerId) {
@@ -58,12 +54,8 @@ tasksRouter.patch("/:id", async (req, res, next) => {
   }
 });
 
-tasksRouter.delete("/completed", async (req, res, next) => {
+tasksRouter.delete("/completed", requireAuth, async (req, res, next) => {
   try {
-    if (!req.user) {
-      return res.status(401).json({ error: "Unauthorized" });
-    }
-
     await deleteCompletedTasks(req.user.id);
 
     return res.status(200).end();
@@ -72,12 +64,8 @@ tasksRouter.delete("/completed", async (req, res, next) => {
   }
 });
 
-tasksRouter.delete("/:id", async (req, res, next) => {
+tasksRouter.delete("/:id", requireAuth, async (req, res, next) => {
   try {
-    if (!req.user) {
-      return res.status(401).json({ error: "Unauthorized" });
-    }
-
     const taskOwnerId = await getUserIdByTask(req.params.id);
 
     if (!taskOwnerId || req.user.id !== taskOwnerId) {
