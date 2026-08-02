@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTasks } from "../context/TasksContext";
 import TabList from "./TabList";
 import TodoItem from "./TodoItem";
@@ -8,13 +8,31 @@ function TodoList() {
     filteredTasks,
     itemsLeft,
     completedTasksCount,
-    tasksFetchError,
     fetchTasks,
     deleteCompletedTasks,
     reorderTasks,
   } = useTasks();
   const [draggedTaskId, setDraggedTaskId] = useState(null);
   const [dropTargetId, setDropTargetId] = useState(null);
+  const [tasksFetchError, setTasksFetchError] = useState(null);
+
+  useEffect(() => {
+    async function loadTasks() {
+      try {
+        await fetchTasks();
+
+        if (isMounted) {
+          setTasksFetchError(null);
+        }
+      } catch (error) {
+        if (isMounted) {
+          setTasksFetchError(error.message || "Failed to fetch tasks");
+        }
+      }
+    }
+
+    loadTasks();
+  }, [fetchTasks]);
 
   function handleDrop(targetTaskId) {
     if (draggedTaskId && draggedTaskId !== targetTaskId) {
@@ -23,6 +41,15 @@ function TodoList() {
 
     setDraggedTaskId(null);
     setDropTargetId(null);
+  }
+
+  async function handleRetry() {
+    try {
+      await fetchTasks();
+      setTasksFetchError(null);
+    } catch (error) {
+      setTasksFetchError(error.message || "Failed to fetch tasks");
+    }
   }
 
   return (
@@ -38,7 +65,7 @@ function TodoList() {
 
           <button
             type="button"
-            onClick={() => fetchTasks()}
+            onClick={handleRetry}
             className="
               mt-3 text-[16px] leading-base font-bold text-blue-400 transition-colors cursor-pointer 
               hover:text-blue-300 light:text-blue-600 light:hover:text-blue-500

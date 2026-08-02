@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useMemo } from "react";
+import { createContext, useContext, useState, useMemo } from "react";
 import { buildApiUrl } from "../config/api";
 
 const TasksContext = createContext();
@@ -6,7 +6,6 @@ const TasksContext = createContext();
 export function TasksProvider({ children }) {
   const [tasks, setTasks] = useState([]);
   const [selectedTab, setSelectedTab] = useState("all");
-  const [tasksFetchError, setTasksFetchError] = useState(null);
 
   async function fetchTasks() {
     const res = await fetch(buildApiUrl("/tasks"), {
@@ -17,16 +16,12 @@ export function TasksProvider({ children }) {
 
     if (!res.ok) {
       setTasks([]);
-      setTasksFetchError(e.message || "Failed to fetch tasks");
+      throw new Error(data.error || "Failed to fetch tasks");
     }
 
     setTasks(data.tasks ?? []);
-    setTasksFetchError(null);
+    return data.tasks ?? [];
   }
-  
-  useEffect(() => {
-    fetchTasks();
-  }, []);
 
   async function createTask(description) {
     const res = await fetch(buildApiUrl("/tasks"), {
@@ -144,7 +139,6 @@ export function TasksProvider({ children }) {
         filteredTasks,
         itemsLeft,
         completedTasksCount,
-        tasksFetchError,
         fetchTasks,
         createTask,
         updateTaskCompletion,
