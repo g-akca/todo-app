@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router";
 
+// Handles the login form, validation feedback, and redirect after authentication.
 function LoginSection() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,6 +13,7 @@ function LoginSection() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  // Submit the credentials, show errors if needed, and send the user to the dashboard.
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");

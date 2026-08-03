@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useTasks } from "../context/TasksContext";
 
+// Renders the input form used to create a new task.
 function NewTodo() {
   const { createTask } = useTasks();
   const [todo, setTodo] = useState("");
   const [error, setError] = useState("");
 
+  // Submit task for creation, show errors if needed.
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");

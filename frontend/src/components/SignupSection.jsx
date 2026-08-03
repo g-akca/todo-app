@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router";
 
+// Handles the signup form, password confirmation, and redirect after account creation.
 function SignupSection() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,6 +14,7 @@ function SignupSection() {
   const { signup } = useAuth();
   const navigate = useNavigate();
 
+  // Submit the new account details, show errors if validation fails, and route the user in.
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");

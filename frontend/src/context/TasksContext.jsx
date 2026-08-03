@@ -3,10 +3,12 @@ import { buildApiUrl } from "../config/api";
 
 const TasksContext = createContext();
 
+// Provides task state and API helpers to the rest of the app.
 export function TasksProvider({ children }) {
   const [tasks, setTasks] = useState([]);
   const [selectedTab, setSelectedTab] = useState("all");
 
+  // Load the current user's tasks from the backend.
   async function fetchTasks() {
     const res = await fetch(buildApiUrl("/tasks"), {
       credentials: "include",
@@ -23,6 +25,7 @@ export function TasksProvider({ children }) {
     return data.tasks ?? [];
   }
 
+  // Add a new task and update local state immediately.
   async function createTask(description) {
     const res = await fetch(buildApiUrl("/tasks"), {
       method: "POST",
@@ -40,6 +43,7 @@ export function TasksProvider({ children }) {
     return data.newTask;
   }
 
+  // Toggle a task's completion status and update local state immediately.
   async function updateTaskCompletion(id, isCompleted) {
     const res = await fetch(buildApiUrl(`/tasks/${id}`), {
       method: "PATCH",
@@ -59,6 +63,7 @@ export function TasksProvider({ children }) {
     return data.updatedTask;
   }
 
+  // Reorder two tasks in the UI.
   function reorderTasks(draggedTaskId, targetTaskId) {
     setTasks((prevTasks) => {
       const sourceIndex = prevTasks.findIndex((task) => task.id === draggedTaskId);
@@ -76,6 +81,7 @@ export function TasksProvider({ children }) {
     });
   }
 
+  // Remove a task from the current user's list and update local state immediately.
   async function deleteTask(id) {
     const res = await fetch(buildApiUrl(`/tasks/${id}`), {
       method: "DELETE",
@@ -93,6 +99,7 @@ export function TasksProvider({ children }) {
     ));
   }
   
+  // Remove all completed tasks from the current user's list and update local state immediately.
   async function deleteCompletedTasks() {
     const res = await fetch(buildApiUrl("/tasks/completed"), {
       method: "DELETE",
@@ -110,6 +117,7 @@ export function TasksProvider({ children }) {
     ));
   }
 
+  // Filter tasks based on selected tab, and update it whenever tasks or tab selection change.
   const filteredTasks = useMemo(() => {
     switch (selectedTab) {
       case "active":
@@ -122,11 +130,13 @@ export function TasksProvider({ children }) {
     }
   }, [tasks, selectedTab]);
 
+  // Calculate the number of incomplete items left.
   const itemsLeft = useMemo(
     () => tasks.filter((task) => !task.is_completed).length,
     [tasks]
   );
 
+  // Calculate the number of completed items.
   const completedTasksCount = useMemo(
     () => tasks.filter((task) => task.is_completed).length,
     [tasks]

@@ -2,6 +2,7 @@ import crossIcon from "/images/icon-cross.svg";
 import Checkbox from "./Checkbox";
 import { useTasks } from "../context/TasksContext";
 
+// Represents a single task row with completion, deletion, and drag-and-drop controls.
 function TodoItem({
   id,
   description,

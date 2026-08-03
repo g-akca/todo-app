@@ -3,12 +3,13 @@ import { buildApiUrl } from "../config/api";
 
 const AuthContext = createContext();
 
+// Provides authentication state and actions for the app.
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // When App is rendered for the first time, check if user is already logged in.
   useEffect(() => {
-    // Check if user is already logged in
     fetch(buildApiUrl("/auth/me"), {
       credentials: "include",
     })
@@ -21,6 +22,7 @@ export function AuthProvider({ children }) {
       .finally(() => setLoading(false));
   }, []);
 
+  // Sign the user in and store the returned account info.
   async function login(email, password, rememberMe) {
     const res = await fetch(buildApiUrl("/auth/login"), {
       method: "POST",
@@ -39,6 +41,7 @@ export function AuthProvider({ children }) {
     return data.user;
   }
 
+  // Create a new account and sign the user in.
   async function signup(email, password, confirmPassword, rememberMe) {
     const res = await fetch(buildApiUrl("/auth/signup"), {
       method: "POST",
@@ -57,6 +60,7 @@ export function AuthProvider({ children }) {
     return data.user;
   }
 
+  // End the current session and clear the logged-in user state.
   async function logout() {
     await fetch(buildApiUrl("/auth/logout"), {
       method: "POST",

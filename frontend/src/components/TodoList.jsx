@@ -3,6 +3,7 @@ import { useTasks } from "../context/TasksContext";
 import TabList from "./TabList";
 import TodoItem from "./TodoItem";
 
+// Displays the current task list, handles loading errors, and manages drag-and-drop reordering.
 function TodoList() {
   const {
     filteredTasks,

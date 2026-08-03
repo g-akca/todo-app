@@ -20,6 +20,7 @@ function App() {
       <div className="relative z-10 flex flex-col gap-10 grow max-w-135.25 tablet:gap-12">
         <Header />
       
+        {/* ProtectedRoute redirects guests from "/" and authenticated users from "/login", "/signup" */}
         <Routes>
           <Route 
             path="/" 
