@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { getTasksByUserId, createTask, updateTaskCompletion, deleteTask, deleteCompletedTasks, getUserIdByTask } from "../db/queries.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import { validateTaskDescription } from "../utils/validation.js";
 
 const tasksRouter = Router();
@@ -12,72 +13,52 @@ function requireAuth(req, res, next) {
   next();
 }
 
-tasksRouter.get("/", requireAuth, async (req, res, next) => {
-  try {
-    const tasks = await getTasksByUserId(req.user.id);
+tasksRouter.get("/", requireAuth, asyncHandler(async (req, res) => {
+  const tasks = await getTasksByUserId(req.user.id);
 
-    return res.status(200).json({ tasks });
-  } catch (error) {
-    return next(error);
+  return res.status(200).json({ tasks });
+}));
+
+tasksRouter.post("/", requireAuth, asyncHandler(async (req, res) => {
+  const validation = validateTaskDescription(req.body.description);
+
+  if (validation.error) {
+    return res.status(400).json({ error: validation.error });
   }
-});
 
-tasksRouter.post("/", requireAuth, async(req, res, next) => {
-  try {
-    const validation = validateTaskDescription(req.body.description);
+  const newTask = await createTask(req.user.id, validation.value);
 
-    if (validation.error) {
-      return res.status(400).json({ error: validation.error });
-    }
+  return res.status(200).json({ newTask });
+}));
 
-    const newTask = await createTask(req.user.id, validation.value);
+tasksRouter.patch("/:id", requireAuth, asyncHandler(async (req, res) => {
+  const taskOwnerId = await getUserIdByTask(req.params.id);
 
-    return res.status(200).json({ newTask });
-  } catch (error) {
-    return next(error);
+  if (!taskOwnerId || req.user.id !== taskOwnerId) {
+    return res.status(403).json({ error: "Forbidden" });
   }
-});
 
-tasksRouter.patch("/:id", requireAuth, async (req, res, next) => {
-  try {
-    const taskOwnerId = await getUserIdByTask(req.params.id);
+  const updatedTask = await updateTaskCompletion(req.params.id, req.body.isCompleted);
 
-    if (!taskOwnerId || req.user.id !== taskOwnerId) {
-      return res.status(403).json({ error: "Forbidden" });
-    }
+  return res.status(200).json({ updatedTask });
+}));
 
-    const updatedTask = await updateTaskCompletion(req.params.id, req.body.isCompleted);
+tasksRouter.delete("/completed", requireAuth, asyncHandler(async (req, res) => {
+  await deleteCompletedTasks(req.user.id);
 
-    return res.status(200).json({ updatedTask });
-  } catch (error) {
-    return next(error);
+  return res.status(200).end();
+}));
+
+tasksRouter.delete("/:id", requireAuth, asyncHandler(async (req, res) => {
+  const taskOwnerId = await getUserIdByTask(req.params.id);
+
+  if (!taskOwnerId || req.user.id !== taskOwnerId) {
+    return res.status(403).json({ error: "Forbidden" });
   }
-});
 
-tasksRouter.delete("/completed", requireAuth, async (req, res, next) => {
-  try {
-    await deleteCompletedTasks(req.user.id);
+  await deleteTask(req.params.id);
 
-    return res.status(200).end();
-  } catch (error) {
-    return next(error);
-  }
-});
-
-tasksRouter.delete("/:id", requireAuth, async (req, res, next) => {
-  try {
-    const taskOwnerId = await getUserIdByTask(req.params.id);
-
-    if (!taskOwnerId || req.user.id !== taskOwnerId) {
-      return res.status(403).json({ error: "Forbidden" });
-    }
-
-    await deleteTask(req.params.id);
-
-    return res.status(200).end();
-  } catch (error) {
-    return next(error);
-  }
-});
+  return res.status(200).end();
+}));
 
 export default tasksRouter;

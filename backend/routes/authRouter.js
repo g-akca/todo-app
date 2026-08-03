@@ -1,6 +1,7 @@
 import { Router } from "express";
 import passport from "passport";
 import { createUser, getUserByEmail } from "../db/queries.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import { hashPassword } from "../utils/passwords.js";
 import { validateSignupInput } from "../utils/validation.js";
 
@@ -39,39 +40,31 @@ function logoutUser(req) {
 	});
 }
 
-authRouter.post("/signup", async (req, res, next) => {
-	try {
-		const { email, password, confirmPassword, rememberMe } = req.body;
-		const validation = validateSignupInput({ email, password, confirmPassword });
+authRouter.post("/signup", asyncHandler(async (req, res) => {
+	const { email, password, confirmPassword, rememberMe } = req.body;
+	const validation = validateSignupInput({ email, password, confirmPassword });
 
-		if (validation.error) {
-			return res.status(400).json({ error: validation.error });
-		}
-
-		const existingUser = await getUserByEmail(email);
-		
-		if (existingUser) {
-			return res.status(409).json({ error: "Email is already in use." });
-		}
-
-		const hashedPassword = await hashPassword(password);
-		const user = await createUser(email, hashedPassword);
-
-		await loginUser(req, user);
-
-		if (rememberMe) {
-			req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 30;
-		}
-
-		return res.status(201).json({ user: toSafeUser(user) });
-	} catch (error) {
-		if (error?.code === "23505") {
-			return res.status(409).json({ error: "Email is already in use." });
-		}
-
-		return next(error);
+	if (validation.error) {
+		return res.status(400).json({ error: validation.error });
 	}
-});
+
+	const existingUser = await getUserByEmail(email);
+	
+	if (existingUser) {
+		return res.status(409).json({ error: "Email is already in use." });
+	}
+
+	const hashedPassword = await hashPassword(password);
+	const user = await createUser(email, hashedPassword);
+
+	await loginUser(req, user);
+
+	if (rememberMe) {
+		req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 30;
+	}
+
+	return res.status(201).json({ user: toSafeUser(user) });
+}));
 
 authRouter.post("/login", (req, res, next) => {
 	passport.authenticate("local", async (error, user, info) => {
@@ -97,20 +90,17 @@ authRouter.post("/login", (req, res, next) => {
 	})(req, res, next);
 });
 
-authRouter.post("/logout", async (req, res, next) => {
-	try {
-		await logoutUser(req);
-		req.session.destroy((error) => {
-			if (error) {
-				return next(error);
-			}
+authRouter.post("/logout", asyncHandler(async (req, res, next) => {
+	await logoutUser(req);
+	
+	req.session.destroy((error) => {
+		if (error) {
+			return next(error);
+		}
 
-			return res.status(204).send();
-		});
-	} catch (error) {
-		next(error);
-	}
-});
+		return res.status(204).send();
+	});
+}));
 
 authRouter.get("/me", (req, res) => {
 	if (!req.user) {
