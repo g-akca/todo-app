@@ -5,6 +5,7 @@ import { validateTaskDescription } from "../utils/validation.js";
 
 const tasksRouter = Router();
 
+// Ensure only authenticated users can access task routes.
 function requireAuth(req, res, next) {
   if (!req.user) {
     return res.status(401).json({ error: "Unauthorized" });
@@ -13,12 +14,14 @@ function requireAuth(req, res, next) {
   next();
 }
 
+// Fetch all tasks belonging to the currently signed-in user.
 tasksRouter.get("/", requireAuth, asyncHandler(async (req, res) => {
   const tasks = await getTasksByUserId(req.user.id);
 
   return res.status(200).json({ tasks });
 }));
 
+// Create a new task for the authenticated user.
 tasksRouter.post("/", requireAuth, asyncHandler(async (req, res) => {
   const validation = validateTaskDescription(req.body.description);
 
@@ -31,6 +34,7 @@ tasksRouter.post("/", requireAuth, asyncHandler(async (req, res) => {
   return res.status(200).json({ newTask });
 }));
 
+// Update a task's completion state for the authenticated user.
 tasksRouter.patch("/:id", requireAuth, asyncHandler(async (req, res) => {
   const taskOwnerId = await getUserIdByTask(req.params.id);
 
@@ -43,12 +47,14 @@ tasksRouter.patch("/:id", requireAuth, asyncHandler(async (req, res) => {
   return res.status(200).json({ updatedTask });
 }));
 
+// Delete completed tasks for the authenticated user.
 tasksRouter.delete("/completed", requireAuth, asyncHandler(async (req, res) => {
   await deleteCompletedTasks(req.user.id);
 
   return res.status(200).end();
 }));
 
+// Delete a task for the authenticated user.
 tasksRouter.delete("/:id", requireAuth, asyncHandler(async (req, res) => {
   const taskOwnerId = await getUserIdByTask(req.params.id);
 

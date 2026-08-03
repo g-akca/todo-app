@@ -8,6 +8,7 @@ import authRouter from "./routes/authRouter.js";
 import tasksRouter from "./routes/tasksRouter.js";
 import "./config/passport.js";
 
+// Create the Express app and configure the runtime settings for the API.
 const app = express();
 const PORT = process.env.PORT || 3000;
 const isProduction = process.env.NODE_ENV === "production";
@@ -17,6 +18,7 @@ const allowedOrigins = (process.env.FRONTEND_ORIGIN || "http://localhost:5173")
   .map((origin) => origin.trim())
   .filter(Boolean);
 
+// Allow requests from the frontend while keeping the API secure.
 app.use(cors({
   origin(origin, callback) {
     // Allow same-origin and non-browser requests without an Origin header.
@@ -33,13 +35,16 @@ app.use(cors({
   credentials: true,
 }));
 
+// Parse JSON and URL-encoded bodies from incoming requests.
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Trust the first proxy in production so secure cookies work behind a reverse proxy.
 if (isProduction) {
   app.set("trust proxy", 1);
 }
 
+// Configure session handling for login persistence and cookie security.
 app.use(session({
   secret: process.env.SESSION_SECRET || "cats",
   resave: false,
@@ -58,7 +63,7 @@ app.use(passport.session());
 app.use("/auth", authRouter);
 app.use("/tasks", tasksRouter);
 
-// Centralized error handler
+// Centralized error handler.
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ error: "Internal Server Error" });

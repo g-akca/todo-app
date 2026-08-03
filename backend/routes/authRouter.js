@@ -7,6 +7,7 @@ import { validateSignupInput } from "../utils/validation.js";
 
 const authRouter = Router();
 
+// Return only non-sensitive user fields for API responses.
 function toSafeUser(user) {
 	return {
 		id: user.id,
@@ -14,6 +15,7 @@ function toSafeUser(user) {
 	};
 }
 
+// Logs user in and triggers serializeUser, which stores user.id in the session.
 function loginUser(req, user) {
 	return new Promise((resolve, reject) => {
 		req.logIn(user, (error) => {
@@ -40,6 +42,7 @@ function logoutUser(req) {
 	});
 }
 
+// Validate signup input, enforce unique email, create user, and log them in.
 authRouter.post("/signup", asyncHandler(async (req, res) => {
 	const { email, password, confirmPassword, rememberMe } = req.body;
 	const validation = validateSignupInput({ email, password, confirmPassword });
@@ -59,6 +62,7 @@ authRouter.post("/signup", asyncHandler(async (req, res) => {
 
 	await loginUser(req, user);
 
+	// Extend cookie lifetime when "remember me" is enabled (30 days).
 	if (rememberMe) {
 		req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 30;
 	}
@@ -66,6 +70,7 @@ authRouter.post("/signup", asyncHandler(async (req, res) => {
 	return res.status(201).json({ user: toSafeUser(user) });
 }));
 
+// Validate credentials with Passport's local strategy callback, then establish a session.
 authRouter.post("/login", (req, res, next) => {
 	passport.authenticate("local", async (error, user, info) => {
 		if (error) {
@@ -79,6 +84,7 @@ authRouter.post("/login", (req, res, next) => {
 		try {
 			await loginUser(req, user);
 
+			// Extend cookie lifetime when "remember me" is enabled (30 days).
 			if (req.body?.rememberMe) {
 				req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 30;
 			}
@@ -90,6 +96,7 @@ authRouter.post("/login", (req, res, next) => {
 	})(req, res, next);
 });
 
+// Log out the current user and destroy their server-side session.
 authRouter.post("/logout", asyncHandler(async (req, res, next) => {
 	await logoutUser(req);
 	
@@ -102,6 +109,7 @@ authRouter.post("/logout", asyncHandler(async (req, res, next) => {
 	});
 }));
 
+// Return the current user restored by deserializeUser from session id.
 authRouter.get("/me", (req, res) => {
 	if (!req.user) {
 		return res.status(401).json({ error: "Unauthorized" });
