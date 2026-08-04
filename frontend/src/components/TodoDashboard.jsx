@@ -2,7 +2,7 @@ import TodoList from "./TodoList";
 import NewTodo from "./NewTodo";
 import TabList from "./TabList";
 
-function TodoSection() {
+function TodoDashboard() {
   return (
     <div className="flex flex-col gap-4 tablet:gap-6">
       <NewTodo />
@@ -23,4 +23,4 @@ function TodoSection() {
   )
 }
 
-export default TodoSection;
+export default TodoDashboard;
