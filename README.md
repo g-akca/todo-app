@@ -10,6 +10,9 @@ This is a solution to the [Todo app challenge on Frontend Mentor](https://www.fr
   - [Links](#links)
 - [My process](#my-process)
   - [Built with](#built-with)
+  - [What I learned](#what-i-learned)
+  - [Challenges](#challenges)
+  - [Continued development](#continued-development)
 - [Author](#author)
 
 ## Overview
@@ -57,6 +60,18 @@ Users should be able to:
 - [Express](https://expressjs.com/) - backend framework
 - [Passport](https://www.passportjs.org/) - authentication
 - [PostgreSQL](https://www.postgresql.org/) - database
+
+### What I learned
+
+This was my first full-stack React application and my first time deploying a public full-stack project. I learned how the frontend, Express API, authentication sessions, and PostgreSQL database fit together in a deployed environment, including the importance of sending credentials with requests and configuring sessions correctly across separate frontend and backend origins.
+
+### Challenges
+
+The most involved part was coordinating authentication with task loading. The frontend has to send credentials with API requests, and the backend must restore the Passport session before allowing access to the user's task routes. Keeping optimistic UI updates understandable while handling API failures was another useful exercise in separating local state changes from persistence.
+
+### Continued development
+
+The next step is to persist drag-and-drop order in PostgreSQL and add an API endpoint for saving the new positions, so a user's custom ordering remains after a refresh or login on another device.
 
 ## Author
 
