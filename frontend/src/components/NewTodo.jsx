@@ -36,6 +36,7 @@ function NewTodo() {
       >
         <div className="w-5 aspect-square rounded-full border border-purple-800 tablet:w-6 light:border-purple-300" />
 
+        <label htmlFor="todo" className="sr-only">Todo</label>
         <input 
           type="text"
           id="todo"
