@@ -78,7 +78,7 @@ function LoginSection() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             minLength={8}
-            maxLength={72}
+            maxLength={32}
             required
             className="
               rounded-[5px] border border-purple-700 bg-navy-950/80 px-4 py-3 transition-all text-purple-100 
