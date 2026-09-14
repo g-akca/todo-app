@@ -54,7 +54,7 @@ function Header() {
           >
             <img 
               src={theme === "dark" ? sunIcon : moonIcon} 
-              alt={theme === "dark" ? "Sun icon" : "Moon icon"} 
+              alt=""
               className="w-5 aspect-square tablet:w-6.5" 
             />
           </button>
