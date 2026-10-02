@@ -63,28 +63,31 @@ function TodoList() {
         </div>
       ) : (
         <>
-          {filteredTasks.map(item => (
-            <TodoItem
-              key={item.id}
-              id={item.id}
-              description={item.description}
-              isCompleted={item.is_completed}
-              isDragging={draggedTaskId === item.id}
-              isDropTarget={dropTargetId === item.id}
-              onDragStart={() => setDraggedTaskId(item.id)}
-              onDragOver={(event) => {
-                event.preventDefault();
-                if (draggedTaskId && draggedTaskId !== item.id) {
-                  setDropTargetId(item.id);
-                }
-              }}
-              onDrop={() => handleDrop(item.id)}
-              onDragEnd={() => {
-                setDraggedTaskId(null);
-                setDropTargetId(null);
-              }}
-            />
-          ))}
+          <ul>
+            {filteredTasks.map(item => (
+              <li key={item.id}>
+                <TodoItem
+                  id={item.id}
+                  description={item.description}
+                  isCompleted={item.is_completed}
+                  isDragging={draggedTaskId === item.id}
+                  isDropTarget={dropTargetId === item.id}
+                  onDragStart={() => setDraggedTaskId(item.id)}
+                  onDragOver={(event) => {
+                    event.preventDefault();
+                    if (draggedTaskId && draggedTaskId !== item.id) {
+                      setDropTargetId(item.id);
+                    }
+                  }}
+                  onDrop={() => handleDrop(item.id)}
+                  onDragEnd={() => {
+                    setDraggedTaskId(null);
+                    setDropTargetId(null);
+                  }}
+                />
+              </li>
+            ))}
+          </ul>
 
           <div className="py-4 px-5 flex justify-between items-center tablet:p-6 tablet:grid tablet:grid-cols-3">
             <p>{itemsLeft} items left</p>
