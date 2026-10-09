@@ -33,6 +33,8 @@ function TodoItem({
       <button
         type="button"
         onClick={() => updateTaskCompletion(id, !isCompleted)}
+        aria-pressed={isCompleted}
+        aria-label={`${isCompleted ? "Mark as incomplete" : "Mark as complete"}: ${description}`}
         className="w-full py-4 px-5 flex justify-between items-center gap-4 cursor-pointer tablet:p-6"
       >
         <div className="flex items-center gap-4 tablet:gap-6">
