@@ -49,12 +49,14 @@ function Header() {
 
           <button 
             type="button" 
-            onClick={toggleTheme} 
+            onClick={toggleTheme}
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
             className="cursor-pointer transition-all duration-200 hover:scale-[1.15] active:scale-[1.03]"
           >
             <img 
               src={theme === "dark" ? sunIcon : moonIcon} 
               alt=""
+              aria-hidden="true"
               className="w-5 aspect-square tablet:w-6.5" 
             />
           </button>
