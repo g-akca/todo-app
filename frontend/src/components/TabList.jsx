@@ -26,6 +26,7 @@ function TabList() {
           type="button"
           onClick={() => setSelectedTab(tab.key)}
           className={`cursor-pointer transition-all ${selectedTab === tab.key ? "text-blue-500" : "hover:text-purple-300 light:hover:text-navy-850"}`}
+          aria-pressed={selectedTab === tab.key}
         >
           {tab.name}
         </button>
