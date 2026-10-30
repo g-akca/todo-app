@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router";
 
@@ -9,9 +9,16 @@ function LoginSection() {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const errorRef = useRef(null);
   
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (error) {
+      errorRef.current?.focus();
+    }
+  }, [error]);
 
   // Submit the credentials, show errors if needed, and send the user to the dashboard.
   const handleSubmit = async (e) => {
@@ -32,6 +39,8 @@ function LoginSection() {
   return (
     <form 
       onSubmit={handleSubmit}
+      aria-describedby={error ? "login-error" : undefined}
+      aria-invalid={Boolean(error)}
       className="
         flex flex-col gap-5 rounded-[5px] bg-navy-900 px-5 py-6 shadow-[0_35px_50px_rgba(0,0,0,0.5)] 
         tablet:p-6 tablet:gap-6 light:bg-white light:shadow-[0_35px_50px_rgba(194,195,214,0.5)]
@@ -40,7 +49,15 @@ function LoginSection() {
       <h2 className="text-[24px] font-bold leading-base text-purple-100 tablet:text-[32px] light:text-navy-850">Log In</h2>
 
       {error && (
-        <div className="rounded-[5px] bg-red-900/30 border border-red-600 px-4 py-2 text-[14px] text-red-400">
+        <div
+          id="login-error"
+          ref={errorRef}
+          tabIndex={-1}
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          className="rounded-[5px] bg-red-900/30 border border-red-600 px-4 py-2 text-[14px] text-red-400 outline-none focus-visible:ring-2 focus-visible:ring-red-300"
+        >
           {error}
         </div>
       )}
