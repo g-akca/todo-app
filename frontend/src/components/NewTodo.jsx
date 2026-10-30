@@ -44,8 +44,9 @@ function NewTodo() {
           onChange={(e) => setTodo(e.target.value)}
           value={todo}
           className="
-            w-full py-1 text-gray-600 mt-px caret-blue-500 placeholder:text-gray-600 
-            tablet:text-[18px] tablet:leading-base tablet:mt-0.5 focus:outline-none light:text-purple-800
+            w-full py-1 text-gray-600 mt-px caret-blue-500 placeholder:text-gray-600
+            tablet:text-[18px] tablet:leading-base tablet:mt-0.5 focus-visible:outline-2
+            focus-visible:outline-blue-500 focus-visible:outline-offset-2 light:text-purple-800
           "
         />
       </form>
