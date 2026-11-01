@@ -42,7 +42,12 @@ function SignupSection() {
       <h2 className="text-[24px] font-bold leading-base text-purple-100 tablet:text-[32px] light:text-navy-850">Sign Up</h2>
 
       {error && (
-        <div className="rounded-[5px] bg-red-900/30 border border-red-600 px-4 py-2 text-[14px] text-red-400">
+        <div
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          className="rounded-[5px] bg-red-900/30 border border-red-600 px-4 py-2 text-[14px] text-red-400"
+        >
           {error}
         </div>
       )}
