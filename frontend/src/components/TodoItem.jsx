@@ -30,37 +30,37 @@ function TodoItem({
         light:bg-white light:border-purple-300
       `}
     >
-      <button
-        type="button"
-        onClick={() => updateTaskCompletion(id, !isCompleted)}
-        aria-pressed={isCompleted}
-        aria-label={`${isCompleted ? "Mark as incomplete" : "Mark as complete"}: ${description}`}
-        className="w-full py-4 px-5 flex justify-between items-center gap-4 cursor-pointer tablet:p-6"
-      >
-        <div className="flex items-center gap-4 tablet:gap-6">
-          <Checkbox isCompleted={isCompleted} />
-
-          <p
-            className={`
-              text-start wrap-anywhere mt-px tablet:text-[18px] tablet:leading-base tablet:mt-1
-              ${isCompleted ? "text-purple-700 line-through light:text-gray-300" : "text-purple-100 light:text-navy-850"}
-            `}
-          >
-            {description}
-          </p>
-        </div>
-
-        <div
-          role="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            deleteTask(id);
-          }}
-          className="shrink-0 cursor-pointer transition-all duration-200 desktop:opacity-0 desktop:group-hover:opacity-100"
+      <div className="flex w-full items-center gap-4 py-4 px-5 tablet:p-6">
+        <button
+          type="button"
+          onClick={() => updateTaskCompletion(id, !isCompleted)}
+          aria-pressed={isCompleted}
+          aria-label={`${isCompleted ? "Mark as incomplete" : "Mark as complete"}: ${description}`}
+          className="flex flex-1 items-center justify-between gap-4 text-left cursor-pointer"
         >
-          <img src={crossIcon} alt="Remove icon" className="w-3 aspect-square tablet:w-4.25" />
-        </div>
-      </button>
+          <div className="flex items-center gap-4 tablet:gap-6">
+            <Checkbox isCompleted={isCompleted} />
+
+            <p
+              className={`
+                text-start wrap-anywhere mt-px tablet:text-[18px] tablet:leading-base tablet:mt-1
+                ${isCompleted ? "text-purple-700 line-through light:text-gray-300" : "text-purple-100 light:text-navy-850"}
+              `}
+            >
+              {description}
+            </p>
+          </div>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => deleteTask(id)}
+          aria-label={`Delete task: ${description}`}
+          className="shrink-0 cursor-pointer transition-all duration-200 desktop:opacity-0 desktop:group-hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-900 light:focus-visible:ring-offset-white"
+        >
+          <img src={crossIcon} alt="" aria-hidden="true" className="w-3 aspect-square tablet:w-4.25" />
+        </button>
+      </div>
     </div>
   )
 }
