@@ -98,7 +98,13 @@ function TodoList() {
 
             <button 
               type="button" 
-              onClick={() => deleteCompletedTasks()}
+              onClick={async () => {
+                try {
+                  await deleteCompletedTasks();
+                } catch (error) {
+                  setError(error.message || "Failed to clear completed tasks");
+                }
+              }}
               disabled={completedTasksCount === 0}
               className={`transition-all tablet:justify-self-end ${completedTasksCount === 0 ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:text-purple-300 light:hover:text-navy-850"}`}
             >
