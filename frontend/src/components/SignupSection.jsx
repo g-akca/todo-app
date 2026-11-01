@@ -39,7 +39,7 @@ function SignupSection() {
         light:bg-white light:shadow-[0_35px_50px_rgba(194,195,214,0.5)]
       "
     >
-      <h2 className="text-[24px] font-bold leading-base text-purple-100 tablet:text-[32px] light:text-navy-850">Sign Up</h2>
+      <h2 id="signup-heading" tabIndex={-1} className="text-[24px] font-bold leading-base text-purple-100 tablet:text-[32px] light:text-navy-850">Sign Up</h2>
 
       {error && (
         <div

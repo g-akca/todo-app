@@ -10,6 +10,7 @@ function MainSection() {
 
   return (
     <main
+      id="todo-dashboard"
       ref={mainRef}
       tabIndex={-1}
       aria-label="Todo dashboard"

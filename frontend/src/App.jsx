@@ -6,6 +6,7 @@ import MainSection from "./components/MainSection";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Routes, Route, Navigate } from "react-router";
 import { TasksProvider } from "./context/TasksContext";
+import RouteAnnouncer from "./components/RouteAnnouncer";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       
       <div className="relative z-10 flex flex-col gap-10 grow max-w-135.25 tablet:gap-12">
         <Header />
+        <RouteAnnouncer />
       
         {/* ProtectedRoute redirects guests from "/" and authenticated users from "/login", "/signup" */}
         <Routes>
