@@ -10,12 +10,14 @@ function TodoList() {
     itemsLeft,
     completedTasksCount,
     fetchTasks,
+    deleteTask,
     deleteCompletedTasks,
     reorderTasks,
   } = useTasks();
   const [draggedTaskId, setDraggedTaskId] = useState(null);
   const [dropTargetId, setDropTargetId] = useState(null);
   const [error, setError] = useState(null);
+  const [deleteAnnouncement, setDeleteAnnouncement] = useState("");
 
   async function loadTasks() {
     try {
@@ -37,6 +39,31 @@ function TodoList() {
 
     setDraggedTaskId(null);
     setDropTargetId(null);
+  }
+
+  async function handleDeleteTask(taskId, description) {
+    const taskIndex = filteredTasks.findIndex((task) => task.id === taskId);
+
+    if (taskIndex === -1) {
+      return;
+    }
+
+    const nextTask = filteredTasks[taskIndex + 1] ?? filteredTasks[taskIndex - 1];
+
+    try {
+      await deleteTask(taskId);
+      setDeleteAnnouncement(`${description} deleted`);
+
+      requestAnimationFrame(() => {
+        const nextTaskButton = nextTask
+          ? document.querySelector(`[data-task-id="${nextTask.id}"] [data-delete-button="true"]`)
+          : document.getElementById("todo");
+
+        nextTaskButton?.focus();
+      });
+    } catch (error) {
+      setError(error.message || "Failed to delete task");
+    }
   }
 
   return (
@@ -63,9 +90,13 @@ function TodoList() {
         </div>
       ) : (
         <>
-          <ul>
+          <div aria-live="polite" aria-atomic="true" className="sr-only">
+            {deleteAnnouncement}
+          </div>
+
+          <ul aria-label="Todo list">
             {filteredTasks.map(item => (
-              <li key={item.id}>
+              <li key={item.id} data-task-id={item.id}>
                 <TodoItem
                   id={item.id}
                   description={item.description}
@@ -84,6 +115,7 @@ function TodoList() {
                     setDraggedTaskId(null);
                     setDropTargetId(null);
                   }}
+                  onDelete={handleDeleteTask}
                 />
               </li>
             ))}
@@ -97,6 +129,7 @@ function TodoList() {
             </div>
 
             <button 
+              id="clear-completed"
               type="button" 
               onClick={async () => {
                 try {
