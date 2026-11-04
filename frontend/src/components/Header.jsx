@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 import { useNavigate } from "react-router";
@@ -8,10 +9,17 @@ function Header() {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
+  const [logoutError, setLogoutError] = useState("");
 
   const handleLogout = async () => {
-    await logout();
-    navigate("/login");
+    setLogoutError("");
+
+    try {
+      await logout();
+      navigate("/login");
+    } catch (error) {
+      setLogoutError(error.message || "Unable to log out right now. Please try again.");
+    }
   };
 
   return (
@@ -61,6 +69,10 @@ function Header() {
             />
           </button>
         </div>
+
+        {logoutError && (
+          <p className="text-[12px] text-red-300 tablet:text-[13px]">{logoutError}</p>
+        )}
       </div>
     </header>
   )

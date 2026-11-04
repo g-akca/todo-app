@@ -62,12 +62,17 @@ export function AuthProvider({ children }) {
 
   // End the current session and clear the logged-in user state.
   async function logout() {
-    await fetch(buildApiUrl("/auth/logout"), {
+    const res = await fetch(buildApiUrl("/auth/logout"), {
       method: "POST",
       credentials: "include",
     });
 
+    if (!res.ok) {
+      throw new Error("Logout failed");
+    }
+
     setUser(null);
+    return true;
   }
 
   return (
