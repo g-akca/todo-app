@@ -60,6 +60,8 @@ Users should be able to:
 - [Express](https://expressjs.com/) - backend framework
 - [Passport](https://www.passportjs.org/) - authentication
 - [PostgreSQL](https://www.postgresql.org/) - database
+- [Neon](https://neon.tech/) - serverless Postgres database
+- [Render](https://render.com/) - deployment platform
 
 ### What I learned
 
