@@ -45,6 +45,7 @@ function Header() {
             <button
               type="button"
               onClick={handleLogout}
+              aria-describedby={logoutError ? "logout-error" : undefined}
               className="
                 px-3 py-1.5 rounded-[5px] bg-red-600 text-white text-[12px] font-semibold
                 transition-all duration-200 cursor-pointer hover:bg-red-500 active:scale-[0.98]
@@ -71,7 +72,15 @@ function Header() {
         </div>
 
         {logoutError && (
-          <p className="text-[12px] text-red-300 tablet:text-[13px]">{logoutError}</p>
+          <p
+            id="logout-error"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+            className="text-[12px] text-red-300 tablet:text-[13px]"
+          >
+            {logoutError}
+          </p>
         )}
       </div>
     </header>
