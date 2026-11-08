@@ -57,7 +57,7 @@ function TodoItem({
           data-task-id={id}
           onClick={() => onDelete(id)}
           aria-label={`Delete task: ${description}`}
-          className="shrink-0 cursor-pointer transition-all duration-200 desktop:opacity-0 desktop:group-hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-900 light:focus-visible:ring-offset-white"
+          className="shrink-0 cursor-pointer transition-all duration-200 desktop:opacity-0 desktop:group-hover:opacity-100 desktop:focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-900 light:focus-visible:ring-offset-white"
         >
           <img src={crossIcon} alt="" aria-hidden="true" className="w-3 aspect-square tablet:w-4.25" />
         </button>
