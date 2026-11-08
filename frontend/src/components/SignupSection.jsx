@@ -54,6 +54,8 @@ function SignupSection() {
         minLength={5}
         maxLength={254}
         required
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? "signup-error" : undefined}
       />
 
       <AuthField
@@ -67,6 +69,8 @@ function SignupSection() {
         minLength={8}
         maxLength={32}
         required
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? "signup-error" : undefined}
       />
 
       <AuthField
@@ -80,6 +84,8 @@ function SignupSection() {
         minLength={8}
         maxLength={32}
         required
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? "signup-error" : undefined}
       />
 
       <label className="flex cursor-pointer items-center gap-2 text-base leading-base tablet:text-[15px] light:text-navy-850">

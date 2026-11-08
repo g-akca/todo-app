@@ -10,8 +10,6 @@ function AuthFormShell({
   children,
   errorId,
   headingId,
-  ariaDescribedBy,
-  ariaInvalid,
 }) {
   const errorRef = useRef(null);
 
@@ -24,8 +22,6 @@ function AuthFormShell({
   return (
     <form
       onSubmit={onSubmit}
-      aria-describedby={error ? ariaDescribedBy ?? errorId : undefined}
-      aria-invalid={ariaInvalid ?? Boolean(error)}
       className="flex flex-col gap-5 rounded-[5px] bg-navy-900 px-5 py-6 shadow-[0_35px_50px_rgba(0,0,0,0.5)] tablet:gap-6 tablet:p-6 light:bg-white light:shadow-[0_35px_50px_rgba(194,195,214,0.5)]"
     >
       <h2
