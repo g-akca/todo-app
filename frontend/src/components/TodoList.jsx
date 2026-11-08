@@ -97,7 +97,7 @@ function TodoList() {
     >
       {error ? (
         <div className="p-5 text-center tablet:px-6">
-          <p className="text-[14px] leading-base text-red-400 light:text-red-500">{error}</p>
+          <p role="alert" className="text-[14px] leading-base text-red-400 light:text-red-500">{error}</p>
 
           <button
             type="button"
