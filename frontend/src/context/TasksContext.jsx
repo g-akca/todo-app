@@ -1,7 +1,6 @@
-import { createContext, useContext, useState, useMemo } from "react";
+import { useCallback, useState, useMemo } from "react";
 import { buildApiUrl } from "../config/api";
-
-const TasksContext = createContext();
+import { TasksContext } from "./useTasks";
 
 // Provides task state and API helpers to the rest of the app.
 export function TasksProvider({ children }) {
@@ -16,7 +15,8 @@ export function TasksProvider({ children }) {
   }
 
   // Load the current user's tasks from the backend.
-  async function fetchTasks() {
+  // Memoized so consumers can safely list it as an effect dependency.
+  const fetchTasks = useCallback(async () => {
     const res = await fetch(buildApiUrl("/tasks"), {
       credentials: "include",
     });
@@ -30,7 +30,7 @@ export function TasksProvider({ children }) {
 
     setTasks(data.tasks ?? []);
     return data.tasks ?? [];
-  }
+  }, []);
 
   // Add a new task and update local state immediately.
   async function createTask(description) {
@@ -180,14 +180,4 @@ export function TasksProvider({ children }) {
       {children}
     </TasksContext.Provider>
   )
-}
-
-export function useTasks() {
-  const context = useContext(TasksContext);
-
-  if (!context) {
-    throw new Error("useTasks must be used within TasksProvider");
-  }
-
-  return context;
 }

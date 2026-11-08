@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useTasks } from "../context/TasksContext";
+import { useTasks } from "../context/useTasks";
 import TabList from "./TabList";
 import TodoItem from "./TodoItem";
 
@@ -19,6 +19,25 @@ function TodoList() {
   const [dropTargetId, setDropTargetId] = useState(null);
   const [error, setError] = useState(null);
 
+  // Load tasks on mount. fetchTasks is stable (memoized in TasksProvider), so this runs once.
+  // The ignore flag drops results that arrive after unmount.
+  useEffect(() => {
+    let ignore = false;
+
+    fetchTasks()
+      .then(() => {
+        if (!ignore) setError(null);
+      })
+      .catch((error) => {
+        if (!ignore) setError(error.message || "Failed to fetch tasks");
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, [fetchTasks]);
+
+  // Manual reload triggered by the Retry button.
   async function loadTasks() {
     try {
       await fetchTasks();
@@ -27,10 +46,6 @@ function TodoList() {
       setError(error.message || "Failed to fetch tasks");
     }
   }
-
-  useEffect(() => {
-    loadTasks();
-  }, []);
 
   function handleDrop(targetTaskId) {
     if (draggedTaskId && draggedTaskId !== targetTaskId) {

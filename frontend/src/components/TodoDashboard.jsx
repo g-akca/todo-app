@@ -1,7 +1,7 @@
 import TodoList from "./TodoList";
 import NewTodo from "./NewTodo";
 import TabList from "./TabList";
-import { useTasks } from "../context/TasksContext";
+import { useTasks } from "../context/useTasks";
 
 function TodoDashboard() {
   const { announcement } = useTasks();

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import { useTheme } from "../context/ThemeContext";
+import { useAuth } from "../context/useAuth";
+import { useTheme } from "../context/useTheme";
 import { useNavigate } from "react-router";
 import sunIcon from "/images/icon-sun.svg";
 import moonIcon from "/images/icon-moon.svg";

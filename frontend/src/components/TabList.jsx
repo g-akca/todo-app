@@ -1,4 +1,4 @@
-import { useTasks } from "../context/TasksContext";
+import { useTasks } from "../context/useTasks";
 
 const tabs = [
   {

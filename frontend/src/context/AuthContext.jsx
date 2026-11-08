@@ -1,7 +1,6 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { buildApiUrl } from "../config/api";
-
-const AuthContext = createContext();
+import { AuthContext } from "./useAuth";
 
 // Provides authentication state and actions for the app.
 export function AuthProvider({ children }) {
@@ -80,14 +79,4 @@ export function AuthProvider({ children }) {
       {children}
     </AuthContext.Provider>
   )
-}
-
-export function useAuth() {
-  const context = useContext(AuthContext);
-  
-  if (!context) {
-    throw new Error("useAuth must be used within AuthProvider");
-  }
-
-  return context;
 }

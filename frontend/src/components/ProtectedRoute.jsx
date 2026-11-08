@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/useAuth";
 
 // Guards routes by redirecting users based on whether they are logged in and which role is allowed, and shows loading text.
 export function ProtectedRoute({ allowedRole, children }) {
