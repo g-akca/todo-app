@@ -52,7 +52,10 @@ export function AuthProvider({ children }) {
     const data = await res.json();
 
     if (!res.ok) {
-      throw new Error(data.error || "Signup failed");
+      const error = new Error(data.error || "Signup failed");
+      // Field ids the server says are invalid, so the form can mark only those controls.
+      error.fields = Array.isArray(data.fields) ? data.fields : [];
+      throw error;
     }
 
     setUser(data.user);

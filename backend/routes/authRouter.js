@@ -48,13 +48,13 @@ authRouter.post("/signup", asyncHandler(async (req, res) => {
 	const validation = validateSignupInput({ email, password, confirmPassword });
 
 	if (validation.error) {
-		return res.status(400).json({ error: validation.error });
+		return res.status(400).json({ error: validation.error, fields: validation.fields });
 	}
 
 	const existingUser = await getUserByEmail(email);
 	
 	if (existingUser) {
-		return res.status(409).json({ error: "Email is already in use." });
+		return res.status(409).json({ error: "Email is already in use.", fields: ["email"] });
 	}
 
 	const hashedPassword = await hashPassword(password);

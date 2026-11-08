@@ -94,6 +94,20 @@ test("validateSignupInput rejects password longer than maximum length", () => {
   assert.equal(result.error, "Password must be between 8 and 32 characters.");
 });
 
+test("validateSignupInput reports only the field each error applies to", () => {
+  const cases = [
+    [{ email: "", password: "StrongPass1", confirmPassword: "" }, ["email", "confirmPassword"]],
+    [{ email: "not-an-email", password: "StrongPass1", confirmPassword: "StrongPass1" }, ["email"]],
+    [{ email: "user@example.com", password: "Short1", confirmPassword: "Short1" }, ["password"]],
+    [{ email: "user@example.com", password: "StrongPass1", confirmPassword: "DifferentPass1" }, ["confirmPassword"]],
+    [{ email: "user@example.com", password: "StrongPass1", confirmPassword: "StrongPass1" }, []],
+  ];
+
+  for (const [input, expectedFields] of cases) {
+    assert.deepEqual(validateSignupInput(input).fields, expectedFields);
+  }
+});
+
 test("validateTaskDescription rejects empty content", () => {
   const result = validateTaskDescription("   ");
 
