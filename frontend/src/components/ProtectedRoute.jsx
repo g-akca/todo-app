@@ -19,12 +19,13 @@ export function ProtectedRoute({ allowedRole, children }) {
     return () => clearInterval(intervalId);
   }, [loading]);
 
-  const loadingText = `Loading${".".repeat(dotCount)}`;
-
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="text-purple-300 text-[14px] tablet:text-[16px] desktop:text-[18px]">{loadingText}</div>
+        <div role="status" className="text-purple-300 text-[14px] tablet:text-[16px] desktop:text-[18px]">
+          Loading
+          <span aria-hidden="true">{".".repeat(dotCount)}</span>
+        </div>
       </div>
     );
   }
