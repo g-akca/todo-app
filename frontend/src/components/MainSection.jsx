@@ -14,7 +14,7 @@ function MainSection() {
       ref={mainRef}
       tabIndex={-1}
       aria-label="Todo dashboard"
-      className="flex flex-col gap-10 tablet:gap-6 focus:outline-none"
+      className="flex flex-col gap-10 tablet:gap-6"
     >
       <TodoDashboard />
 
