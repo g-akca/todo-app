@@ -17,7 +17,6 @@ function TodoList() {
   const [draggedTaskId, setDraggedTaskId] = useState(null);
   const [dropTargetId, setDropTargetId] = useState(null);
   const [error, setError] = useState(null);
-  const [deleteAnnouncement, setDeleteAnnouncement] = useState("");
 
   async function loadTasks() {
     try {
@@ -41,7 +40,7 @@ function TodoList() {
     setDropTargetId(null);
   }
 
-  async function handleDeleteTask(taskId, description) {
+  async function handleDeleteTask(taskId) {
     const taskIndex = filteredTasks.findIndex((task) => task.id === taskId);
 
     if (taskIndex === -1) {
@@ -52,7 +51,6 @@ function TodoList() {
 
     try {
       await deleteTask(taskId);
-      setDeleteAnnouncement(`${description} deleted`);
 
       requestAnimationFrame(() => {
         const nextTaskButton = nextTask
@@ -90,10 +88,6 @@ function TodoList() {
         </div>
       ) : (
         <>
-          <div aria-live="polite" aria-atomic="true" className="sr-only">
-            {deleteAnnouncement}
-          </div>
-
           <ul aria-label="Todo list">
             {filteredTasks.map(item => (
               <li key={item.id} data-task-id={item.id}>

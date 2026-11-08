@@ -7,6 +7,13 @@ const TasksContext = createContext();
 export function TasksProvider({ children }) {
   const [tasks, setTasks] = useState([]);
   const [selectedTab, setSelectedTab] = useState("all");
+  const [announcement, setAnnouncement] = useState({ id: 0, message: "" });
+
+  // Queue a status message for the shared screen reader live region.
+  // The incrementing id lets the region re-announce repeated messages.
+  function announce(message) {
+    setAnnouncement((prev) => ({ id: prev.id + 1, message }));
+  }
 
   // Load the current user's tasks from the backend.
   async function fetchTasks() {
@@ -39,7 +46,8 @@ export function TasksProvider({ children }) {
     if (!res.ok) throw new Error(data.error || "Failed to create new task");
 
     setTasks((prevTasks) => [...prevTasks, data.newTask]);
-    
+    announce(`${data.newTask.description} added`);
+
     return data.newTask;
   }
 
@@ -59,6 +67,9 @@ export function TasksProvider({ children }) {
     setTasks((prevTasks) => prevTasks.map((task) =>
       task.id === data.updatedTask.id ? data.updatedTask : task
     ));
+    announce(
+      `${data.updatedTask.description} marked as ${data.updatedTask.is_completed ? "complete" : "incomplete"}`
+    );
 
     return data.updatedTask;
   }
@@ -83,6 +94,8 @@ export function TasksProvider({ children }) {
 
   // Remove a task from the current user's list and update local state immediately.
   async function deleteTask(id) {
+    const deletedTask = tasks.find((task) => task.id === id);
+
     const res = await fetch(buildApiUrl(`/tasks/${id}`), {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -94,13 +107,16 @@ export function TasksProvider({ children }) {
       throw new Error(data.error || "Failed to delete task");
     }
     
-    setTasks((prevTasks) => prevTasks.filter((task) => 
+    setTasks((prevTasks) => prevTasks.filter((task) =>
       task.id !== id
     ));
+    announce(`${deletedTask?.description ?? "Task"} deleted`);
   }
   
   // Remove all completed tasks from the current user's list and update local state immediately.
   async function deleteCompletedTasks() {
+    const completedCount = tasks.filter((task) => task.is_completed).length;
+
     const res = await fetch(buildApiUrl("/tasks/completed"), {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -112,9 +128,10 @@ export function TasksProvider({ children }) {
       throw new Error(data.error || "Failed to delete completed tasks");
     }
 
-    setTasks((prevTasks) => prevTasks.filter((task) => 
+    setTasks((prevTasks) => prevTasks.filter((task) =>
       !task.is_completed
     ));
+    announce(`${completedCount} completed ${completedCount === 1 ? "task" : "tasks"} cleared`);
   }
 
   // Filter tasks based on selected tab, and update it whenever tasks or tab selection change.
@@ -157,6 +174,7 @@ export function TasksProvider({ children }) {
         reorderTasks,
         deleteTask,
         deleteCompletedTasks,
+        announcement,
       }}
     >
       {children}

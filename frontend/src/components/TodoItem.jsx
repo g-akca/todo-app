@@ -57,7 +57,7 @@ function TodoItem({
           type="button"
           data-delete-button="true"
           data-task-id={id}
-          onClick={() => onDelete(id, description)}
+          onClick={() => onDelete(id)}
           aria-label={`Delete task: ${description}`}
           className="shrink-0 cursor-pointer transition-all duration-200 desktop:opacity-0 desktop:group-hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-900 light:focus-visible:ring-offset-white"
         >
