@@ -1,6 +1,5 @@
 import crossIcon from "/images/icon-cross.svg";
 import Checkbox from "./Checkbox";
-import { useTasks } from "../context/TasksContext";
 
 // Represents a single task row with completion, deletion, and drag-and-drop controls.
 function TodoItem({
@@ -13,10 +12,9 @@ function TodoItem({
   onDragOver,
   onDrop,
   onDragEnd,
+  onToggle,
   onDelete,
 }) {
-  const { updateTaskCompletion } = useTasks();
-
   return (
     <div
       draggable
@@ -34,7 +32,7 @@ function TodoItem({
       <div className="flex w-full items-center gap-4 py-4 px-5 tablet:p-6">
         <button
           type="button"
-          onClick={() => updateTaskCompletion(id, !isCompleted)}
+          onClick={() => onToggle(id, !isCompleted)}
           aria-pressed={isCompleted}
           aria-label={`${isCompleted ? "Mark as incomplete" : "Mark as complete"}: ${description}`}
           className="flex flex-1 items-center justify-between gap-4 text-left cursor-pointer"

@@ -10,6 +10,7 @@ function TodoList() {
     itemsLeft,
     completedTasksCount,
     fetchTasks,
+    updateTaskCompletion,
     deleteTask,
     deleteCompletedTasks,
     reorderTasks,
@@ -38,6 +39,14 @@ function TodoList() {
 
     setDraggedTaskId(null);
     setDropTargetId(null);
+  }
+
+  async function handleToggleTask(taskId, isCompleted) {
+    try {
+      await updateTaskCompletion(taskId, isCompleted);
+    } catch (error) {
+      setError(error.message || "Failed to update task");
+    }
   }
 
   async function handleDeleteTask(taskId) {
@@ -109,6 +118,7 @@ function TodoList() {
                     setDraggedTaskId(null);
                     setDropTargetId(null);
                   }}
+                  onToggle={handleToggleTask}
                   onDelete={handleDeleteTask}
                 />
               </li>
